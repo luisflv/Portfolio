@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Lab: Dominando o GROUP BY</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- CSS Estilos -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- SQL.js WebAssembly -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Top Navigation -->
+        <header class="app-header">
+            <div class="logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 4.02 2 6.5V17.5C2 19.98 6.48 22 12 22C17.52 22 22 19.98 22 17.5V6.5C22 4.02 17.52 2 12 2Z" stroke="url(#logo-grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 12C2 13.5 6 15 12 15C18 15 22 13.5 22 12" stroke="url(#logo-grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 7C2 8.5 6 10 12 10C18 10 22 8.5 22 7" stroke="url(#logo-grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <defs>
+                        <linearGradient id="logo-grad" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#8b5cf6"/>
+                            <stop offset="1" stop-color="#06b6d4"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <h1>SQL Lab <span class="badge">GROUP BY</span></h1>
+            </div>
+            <div class="header-actions">
+                <button id="btn-reset-db" class="btn btn-secondary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                    Reiniciar Dados
+                </button>
+                <div class="progress-tracker">
+                    <span>Progresso:</span>
+                    <span id="progress-text">0/5 Concluído</span>
+                    <div class="progress-bar-container">
+                        <div id="progress-bar" class="progress-bar" style="width: 0%;"></div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Layout -->
+        <main class="app-main">
+            <!-- Sidebar: Lista de Questões -->
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <h2>Desafios</h2>
+                </div>
+                <div class="quest-list" id="question-list">
+                    <!-- Questões serão injetadas pelo JS -->
+                </div>
+            </aside>
+
+            <!-- Content Area -->
+            <section class="content-area">
+                <!-- Top Row: Detalhes e Esquema -->
+                <div class="top-row">
+                    <!-- Detalhes do Exercício -->
+                    <div class="card exercise-details">
+                        <div class="exercise-header">
+                            <span class="exercise-difficulty" id="exercise-difficulty">Fácil</span>
+                            <h3 id="exercise-title">Carregando exercício...</h3>
+                        </div>
+                        <div class="exercise-body">
+                            <p id="exercise-description">Selecione uma questão na barra lateral para começar a praticar.</p>
+                            <div class="tip-container" id="tip-container" style="display: none;">
+                                <div class="tip-header">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A5 5 0 0 0 8 8c0 1 .3 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5M9 18h6M10 22h4"/></svg>
+                                    <span>Dica</span>
+                                </div>
+                                <p id="exercise-tip"></p>
+                            </div>
+                        </div>
+                        <div class="exercise-footer">
+                            <button id="btn-show-tip" class="btn btn-tertiary">Ver Dica</button>
+                        </div>
+                    </div>
+
+                    <!-- Visualizador do Esquema (Tabelas) -->
+                    <div class="card schema-viewer">
+                        <div class="schema-header">
+                            <h3>Tabelas Disponíveis</h3>
+                        </div>
+                        <div class="schema-tabs" id="schema-tabs">
+                            <!-- Tabs de tabelas injetados por JS -->
+                        </div>
+                        <div class="schema-body" id="schema-table-fields">
+                            <!-- Campos da tabela selecionada injetados por JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Middle Row: Editor de Código -->
+                <div class="card editor-card">
+                    <div class="editor-header">
+                        <div class="editor-title">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            <span>Editor de SQL</span>
+                        </div>
+                        <div class="editor-actions">
+                            <button id="btn-run" class="btn btn-secondary">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                Executar
+                            </button>
+                            <button id="btn-submit" class="btn btn-primary">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                Validar Resposta
+                            </button>
+                        </div>
+                    </div>
+                    <div class="editor-container">
+                        <div class="line-numbers" id="line-numbers">
+                            <span>1</span>
+                        </div>
+                        <textarea id="sql-editor" spellcheck="false" placeholder="Digite seu comando SQL aqui...
+Dica: Utilize GROUP BY para agrupar os resultados."></textarea>
+                    </div>
+                </div>
+
+                <!-- Bottom Row: Painel de Resultados -->
+                <div class="card results-card">
+                    <div class="results-tabs">
+                        <button class="tab-btn active" data-tab="tab-user-result">Meu Resultado</button>
+                        <button class="tab-btn" data-tab="tab-expected-result">Resultado Esperado</button>
+                        <button class="tab-btn" data-tab="tab-schema-data">Visualizar Dados das Tabelas</button>
+                    </div>
+                    <div class="results-content">
+                        <!-- Aba 1: Resultado do Usuário -->
+                        <div class="tab-pane active" id="tab-user-result">
+                            <div class="message-placeholder" id="user-result-placeholder">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                                <p>Execute a consulta para visualizar os resultados aqui.</p>
+                            </div>
+                            <div class="table-container" id="user-result-table-container" style="display: none;">
+                                <table id="user-result-table"></table>
+                            </div>
+                        </div>
+
+                        <!-- Aba 2: Resultado Esperado -->
+                        <div class="tab-pane" id="tab-expected-result">
+                            <div class="message-placeholder">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                                <p>O resultado esperado para validar a questão ativa será mostrado aqui.</p>
+                            </div>
+                            <div class="table-container" id="expected-result-table-container" style="display: none;">
+                                <table id="expected-result-table"></table>
+                            </div>
+                        </div>
+
+                        <!-- Aba 3: Dados das Tabelas Completas -->
+                        <div class="tab-pane" id="tab-schema-data">
+                            <div class="schema-data-selector">
+                                <span>Ver dados de:</span>
+                                <select id="schema-table-select">
+                                    <option value="vendas">Vendas</option>
+                                    <option value="produtos">Produtos</option>
+                                    <option value="funcionarios">Funcionarios</option>
+                                </select>
+                            </div>
+                            <div class="table-container">
+                                <table id="schema-data-table"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal de Sucesso Geral -->
+    <div class="modal-overlay" id="success-modal" style="display: none;">
+        <div class="modal-card">
+            <div class="modal-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <h2>Parabéns! 🎉</h2>
+            <p>Você resolveu todos os 5 desafios de SQL GROUP BY com sucesso!</p>
+            <div class="modal-actions">
+                <button id="btn-modal-close" class="btn btn-primary">Continuar Praticando</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script de Inicialização da Aplicação -->
+    <script src="app.js"></script>
+</body>
+</html>
