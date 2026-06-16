@@ -1,87 +1,300 @@
-// SQL Lab - GROUP BY App Logic
+// SQL Lab - App Logic
+// Roteiro de Atividades com Alunos, Cursos e Matrículas
 
-// 1. Dados das Questões
+// 1. Lista Completa de Questões (21 desafios)
 const questions = [
+    // 1. Consultas Básicas (SELECT e ORDER BY)
     {
         id: 1,
-        title: "1. Vendas por Categoria",
+        section: "1. Consultas Básicas",
+        title: "1.1. Consulta uma coluna",
         difficulty: "fácil",
-        description: `Escreva uma consulta SQL que calcule o valor total vendido para cada categoria de produto. 
-        Retorne a coluna <code>categoria</code> (da tabela <code>produtos</code>) e o total vendido como <code>total_vendido</code> (soma da coluna <code>valor_total</code> da tabela <code>vendas</code>). 
-        Você precisará juntar as tabelas <code>vendas</code> e <code>produtos</code> e agrupar pela categoria.`,
-        tip: "Utilize INNER JOIN para relacionar as tabelas vendas e produtos através do id do produto. Use SUM(v.valor_total) e GROUP BY p.categoria.",
-        initialQuery: "SELECT \n  \nFROM vendas v\nJOIN produtos p ON v.produto_id = p.id\nGROUP BY ",
-        referenceQuery: "SELECT p.categoria, SUM(v.valor_total) AS total_vendido FROM vendas v JOIN produtos p ON v.produto_id = p.id GROUP BY p.categoria;",
-        tables: ["vendas", "produtos"]
+        description: "Escreva uma consulta SQL para retornar apenas os nomes de todos os alunos da tabela <code>Alunos</code>.",
+        tip: "Utilize o comando SELECT seguido pelo nome da coluna (nome) e FROM Alunos.",
+        initialQuery: "SELECT nome FROM Alunos;",
+        referenceQuery: "SELECT nome FROM Alunos;",
+        tables: ["Alunos"],
+        validationType: "query"
     },
     {
         id: 2,
-        title: "2. Média Salarial por Setor",
+        section: "1. Consultas Básicas",
+        title: "1.2. Múltiplas colunas",
         difficulty: "fácil",
-        description: `A diretoria precisa de um relatório de RH. Escreva uma consulta que exiba o nome do <code>departamento</code>, a quantidade total de funcionários como <code>total_funcionarios</code> e a média salarial daquele departamento como <code>media_salarial</code>.<br>
-        Agrupe o resultado por departamento.`,
-        tip: "Use as funções agregadas COUNT(*) para contar os registros e AVG(salario) para obter a média salarial. Agrupe pela coluna departamento.",
-        initialQuery: "SELECT \n  \nFROM funcionarios\nGROUP BY ",
-        referenceQuery: "SELECT departamento, COUNT(*) AS total_funcionarios, AVG(salario) AS media_salarial FROM funcionarios GROUP BY departamento;",
-        tables: ["funcionarios"]
+        description: "Escreva uma consulta para retornar o nome e o email de todos os alunos cadastrados.",
+        tip: "Separe os nomes das colunas com vírgula: SELECT nome, email FROM Alunos.",
+        initialQuery: "SELECT nome, email FROM Alunos;",
+        referenceQuery: "SELECT nome, email FROM Alunos;",
+        tables: ["Alunos"],
+        validationType: "query"
     },
     {
         id: 3,
-        title: "3. Departamentos Bem Pagos",
-        difficulty: "médio",
-        description: `Selecione apenas os departamentos da empresa que tenham uma média salarial dos funcionários superior a 5000.00.<br>
-        Retorne o <code>departamento</code> e a sua <code>media_salarial</code> correspondente, ordenando o resultado de forma decrescente pela média salarial.`,
-        tip: "Para filtrar resultados agrupados por GROUP BY, você deve utilizar a cláusula HAVING logo após o agrupamento. Ordene as médias de forma decrescente com ORDER BY [coluna] DESC.",
-        initialQuery: "SELECT \n  \nFROM funcionarios\nGROUP BY \nHAVING \nORDER BY ",
-        referenceQuery: "SELECT departamento, AVG(salario) AS media_salarial FROM funcionarios GROUP BY departamento HAVING AVG(salario) > 5000 ORDER BY media_salarial DESC;",
-        tables: ["funcionarios"]
+        section: "1. Consultas Básicas",
+        title: "1.3. Todas as colunas",
+        difficulty: "fácil",
+        description: "Retorne a ficha completa (todas as colunas) de todos os alunos cadastrados.",
+        tip: "Utilize o caractere curinga '*' para trazer todas as colunas: SELECT * FROM Alunos.",
+        initialQuery: "SELECT * FROM Alunos;",
+        referenceQuery: "SELECT * FROM Alunos;",
+        tables: ["Alunos"],
+        validationType: "query"
     },
     {
         id: 4,
-        title: "4. Compras por Cliente e Produto",
-        difficulty: "médio",
-        description: `A equipe de marketing quer analisar o comportamento dos clientes. Escreva uma consulta que traga o <code>cliente_id</code>, o <code>produto_id</code> e a soma total das quantidades compradas acumuladas de cada produto por cliente, com o apelido de <code>total_quantidade</code>.<br>
-        Ordene o resultado primeiro pelo <code>cliente_id</code> em ordem crescente e, em seguida, pela <code>total_quantidade</code> em ordem decrescente.`,
-        tip: "Você pode agrupar por mais de uma coluna passando-as separadas por vírgula no GROUP BY. Ordene usando ORDER BY cliente_id ASC, total_quantidade DESC.",
-        initialQuery: "SELECT \n  \nFROM vendas\nGROUP BY \nORDER BY ",
-        referenceQuery: "SELECT cliente_id, produto_id, SUM(quantidade) AS total_quantidade FROM vendas GROUP BY cliente_id, produto_id ORDER BY cliente_id, total_quantidade DESC;",
-        tables: ["vendas"]
+        section: "1. Consultas Básicas",
+        title: "1.4. Ordenação Crescente",
+        difficulty: "fácil",
+        description: "Listar os nomes dos cursos em ordem alfabética (A-Z).",
+        tip: "Use ORDER BY nome_curso ASC para ordenar de forma crescente.",
+        initialQuery: "SELECT nome_curso FROM Cursos ORDER BY nome_curso ASC;",
+        referenceQuery: "SELECT nome_curso FROM Cursos ORDER BY nome_curso ASC;",
+        tables: ["Cursos"],
+        validationType: "query"
     },
     {
         id: 5,
-        title: "5. Filtro e Análise de Preços",
+        section: "1. Consultas Básicas",
+        title: "1.5. Ordenação Decrescente",
+        difficulty: "fácil",
+        description: "Listar o nome e a data de nascimento dos alunos, ordenando do mais velho para o mais novo.",
+        tip: "Alunos mais velhos têm datas de nascimento menores. Ordene por data_nascimento de forma decrescente (DESC).",
+        initialQuery: "SELECT nome, data_nascimento FROM Alunos ORDER BY data_nascimento DESC;",
+        referenceQuery: "SELECT nome, data_nascimento FROM Alunos ORDER BY data_nascimento DESC;",
+        tables: ["Alunos"],
+        validationType: "query"
+    },
+
+    // 2. Filtros e Operadores (WHERE, LIMIT, Lógicos e Relacionais)
+    {
+        id: 6,
+        section: "2. Filtros e Operadores",
+        title: "2.1. Operadores Relacionais",
+        difficulty: "fácil",
+        description: "Encontre o nome e a carga horária de todos os cursos que possuem carga horária maior que 40 horas.",
+        tip: "Use a cláusula WHERE carga_horaria > 40.",
+        initialQuery: "SELECT nome_curso, carga_horaria FROM Cursos WHERE carga_horaria > 40;",
+        referenceQuery: "SELECT nome_curso, carga_horaria FROM Cursos WHERE carga_horaria > 40;",
+        tables: ["Cursos"],
+        validationType: "query"
+    },
+    {
+        id: 7,
+        section: "2. Filtros e Operadores",
+        title: "2.2. Operadores Lógicos",
+        difficulty: "fácil",
+        description: "Encontre os nomes dos alunos que estão com status 'Ativo' E que moram na cidade de 'Lages'.",
+        tip: "Use o operador lógico AND para unir as duas condições na cláusula WHERE.",
+        initialQuery: "SELECT nome FROM Alunos WHERE status = 'Ativo' AND cidade = 'Lages';",
+        referenceQuery: "SELECT nome FROM Alunos WHERE status = 'Ativo' AND cidade = 'Lages';",
+        tables: ["Alunos"],
+        validationType: "query"
+    },
+    {
+        id: 8,
+        section: "2. Filtros e Operadores",
+        title: "2.3. Limitação de Resultados",
+        difficulty: "fácil",
+        description: "Traga apenas os 5 primeiros alunos recém-cadastrados (com os maiores IDs de aluno).",
+        tip: "Ordene por id_aluno DESC e limite os resultados usando LIMIT 5.",
+        initialQuery: "SELECT nome FROM Alunos ORDER BY id_aluno DESC LIMIT 5;",
+        referenceQuery: "SELECT nome FROM Alunos ORDER BY id_aluno DESC LIMIT 5;",
+        tables: ["Alunos"],
+        validationType: "query"
+    },
+
+    // 3. Buscas Avançadas de Padrões e Intervalos (LIKE, IN, BETWEEN)
+    {
+        id: 9,
+        section: "3. Buscas Avançadas",
+        title: "3.1. LIKE (%a%)",
+        difficulty: "médio",
+        description: "Selecione o nome dos alunos que possuem a letra 'a' em qualquer parte do nome.",
+        tip: "Use WHERE nome LIKE '%a%' para busca de padrões no meio da string.",
+        initialQuery: "SELECT nome FROM Alunos WHERE nome LIKE '%a%';",
+        referenceQuery: "SELECT nome FROM Alunos WHERE nome LIKE '%a%';",
+        tables: ["Alunos"],
+        validationType: "query"
+    },
+    {
+        id: 10,
+        section: "3. Buscas Avançadas",
+        title: "3.2. LIKE (%a)",
+        difficulty: "médio",
+        description: "Selecione o nome dos alunos cujo nome termina com a letra 'a'.",
+        tip: "Use LIKE '%a' para encontrar registros cujo caractere final é a.",
+        initialQuery: "SELECT nome FROM Alunos WHERE nome LIKE '%a';",
+        referenceQuery: "SELECT nome FROM Alunos WHERE nome LIKE '%a';",
+        tables: ["Alunos"],
+        validationType: "query"
+    },
+    {
+        id: 11,
+        section: "3. Buscas Avançadas",
+        title: "3.3. LIKE (a%)",
+        difficulty: "médio",
+        description: "Selecione o nome dos alunos cujo nome começa com a letra 'A'.",
+        tip: "Use LIKE 'A%' para encontrar registros que começam com a letra A.",
+        initialQuery: "SELECT nome FROM Alunos WHERE nome LIKE 'A%';",
+        referenceQuery: "SELECT nome FROM Alunos WHERE nome LIKE 'A%';",
+        tables: ["Alunos"],
+        validationType: "query"
+    },
+    {
+        id: 12,
+        section: "3. Buscas Avançadas",
+        title: "3.4. Operador IN",
+        difficulty: "médio",
+        description: "Filtre a tabela de matrículas para retornar o id do aluno e o id do curso apenas para matrículas nos cursos de IDs 1, 3 e 5.",
+        tip: "Use WHERE id_curso IN (1, 3, 5).",
+        initialQuery: "SELECT id_aluno, id_curso FROM Matriculas WHERE id_curso IN (1, 3, 5);",
+        referenceQuery: "SELECT id_aluno, id_curso FROM Matriculas WHERE id_curso IN (1, 3, 5);",
+        tables: ["Matriculas"],
+        validationType: "query"
+    },
+    {
+        id: 13,
+        section: "3. Buscas Avançadas",
+        title: "3.5. Operador BETWEEN",
+        difficulty: "médio",
+        description: "Busque o id da matrícula e a data de matrícula para os registros que ocorreram dentro do primeiro semestre de 2026 (entre '2026-01-01' e '2026-06-30').",
+        tip: "Use data_matricula BETWEEN '2026-01-01' AND '2026-06-30'.",
+        initialQuery: "SELECT id_matricula, data_matricula FROM Matriculas WHERE data_matricula BETWEEN '2026-01-01' AND '2026-06-30';",
+        referenceQuery: "SELECT id_matricula, data_matricula FROM Matriculas WHERE data_matricula BETWEEN '2026-01-01' AND '2026-06-30';",
+        tables: ["Matriculas"],
+        validationType: "query"
+    },
+
+    // 4. Relatórios e Relacionamentos (AGREGAÇÃO e JOIN)
+    {
+        id: 14,
+        section: "4. Relatórios e Relacionamentos",
+        title: "4.1. Funções de Agregação",
+        difficulty: "médio",
+        description: "Conte o total de alunos ativos e exiba o resultado renomeando a coluna resultante para <code>total_alunos</code>.",
+        tip: "Use SELECT COUNT(*) AS total_alunos combinando com a condição status = 'Ativo'.",
+        initialQuery: "SELECT COUNT(*) AS total_alunos FROM Alunos WHERE status = 'Ativo';",
+        referenceQuery: "SELECT COUNT(*) AS total_alunos FROM Alunos WHERE status = 'Ativo';",
+        tables: ["Alunos"],
+        validationType: "query"
+    },
+    {
+        id: 15,
+        section: "4. Relatórios e Relacionamentos",
+        title: "4.2. INNER JOIN",
+        difficulty: "médio",
+        description: "Cruze as tabelas para mostrar o nome do aluno (tabela Alunos) e o nome do curso (tabela Cursos) em que ele está matriculado.",
+        tip: "Use INNER JOIN relacionando Alunos com Matriculas (id_aluno) e Matriculas com Cursos (id_curso).",
+        initialQuery: "SELECT A.nome, C.nome_curso \nFROM Alunos A\nINNER JOIN Matriculas M ON A.id_aluno = M.id_aluno\nINNER JOIN Cursos C ON M.id_curso = C.id_curso;",
+        referenceQuery: "SELECT A.nome, C.nome_curso FROM Alunos A INNER JOIN Matriculas M ON A.id_aluno = M.id_aluno INNER JOIN Cursos C ON M.id_curso = C.id_curso;",
+        tables: ["Alunos", "Matriculas", "Cursos"],
+        validationType: "query"
+    },
+
+    // 5. Estruturas Avançadas de Banco de Dados
+    {
+        id: 16,
+        section: "5. Estruturas Avançadas",
+        title: "5.1. Criar uma VIEW",
         difficulty: "difícil",
-        description: `Faça um levantamento apenas dos produtos que tenham preço unitário superior a 10.00.<br>
-        Agrupando por <code>categoria</code>, selecione o nome da categoria, o maior preço encontrado para aquela categoria como <code>preco_maximo</code> e o menor preço encontrado como <code>preco_minimo</code>.`,
-        tip: "Use o WHERE antes do GROUP BY para filtrar apenas produtos com preço > 10.00. Em seguida, agrupe por categoria e use as funções MAX(preco) e MIN(preco).",
-        initialQuery: "SELECT \n  \nFROM produtos\nWHERE \nGROUP BY ",
-        referenceQuery: "SELECT categoria, MAX(preco) AS preco_maximo, MIN(preco) AS preco_minimo FROM produtos WHERE preco > 10.00 GROUP BY categoria;",
-        tables: ["produtos"]
+        description: "Crie uma VIEW chamada <code>vw_alunos_cursos</code> que exiba o nome do aluno (da tabela Alunos), o nome do curso (da tabela Cursos) e a data da matrícula (da tabela Matriculas).",
+        tip: "Utilize CREATE VIEW vw_alunos_cursos AS seguido pelo SELECT que faz o JOIN entre as tabelas.",
+        initialQuery: "CREATE VIEW vw_alunos_cursos AS\nSELECT A.nome, C.nome_curso, M.data_matricula\nFROM Alunos A\nJOIN Matriculas M ON A.id_aluno = M.id_aluno\nJOIN Cursos C ON M.id_curso = C.id_curso;",
+        referenceQuery: "CREATE VIEW vw_alunos_cursos AS SELECT A.nome, C.nome_curso, M.data_matricula FROM Alunos A JOIN Matriculas M ON A.id_aluno = M.id_aluno JOIN Cursos C ON M.id_curso = C.id_curso;",
+        tables: ["Alunos", "Matriculas", "Cursos"],
+        validationType: "schema"
+    },
+    {
+        id: 17,
+        section: "5. Estruturas Avançadas",
+        title: "5.2. STORED PROCEDURE",
+        difficulty: "difícil",
+        description: "Crie uma Stored Procedure chamada <code>sp_RealizarMatricula</code> que recebe p_id_aluno e p_id_curso e insere o registro correspondente na tabela Matriculas.<br><em>Nota: Devido a restrições do SQLite do navegador, validaremos conceitualmente sua query.</em>",
+        tip: "Use DELIMITER //, defina a procedure com IN p_id_aluno INT, IN p_id_curso INT, e insira na tabela Matriculas usando CURDATE() para a data.",
+        initialQuery: "DELIMITER //\nCREATE PROCEDURE sp_RealizarMatricula(IN p_id_aluno INT, IN p_id_curso INT)\nBEGIN\n    INSERT INTO Matriculas (id_aluno, id_curso, data_matricula)\n    VALUES (p_id_aluno, p_id_curso, CURDATE());\nEND //\nDELIMITER ;",
+        referenceQuery: "DELIMITER //\nCREATE PROCEDURE sp_RealizarMatricula(IN p_id_aluno INT, IN p_id_curso INT)\nBEGIN\n    INSERT INTO Matriculas (id_aluno, id_curso, data_matricula)\n    VALUES (p_id_aluno, p_id_curso, CURDATE());\nEND //\nDELIMITER ;",
+        tables: ["Matriculas"],
+        validationType: "text"
+    },
+    {
+        id: 18,
+        section: "5. Estruturas Avançadas",
+        title: "5.3. Criar um TRIGGER",
+        difficulty: "difícil",
+        description: "Crie um Trigger chamado <code>trg_aluno_deletado</code> que insere um registro na tabela <code>Log_Auditoria</code> com a ação 'ALUNO EXCLUIDO', o nome do aluno afetado (OLD.nome) e a data atual (NOW()) após a exclusão de um aluno na tabela <code>Alunos</code>.",
+        tip: "Escreva CREATE TRIGGER trg_aluno_deletado AFTER DELETE ON Alunos FOR EACH ROW BEGIN INSERT INTO Log_Auditoria (acao, usuario_afetado, data_acao) VALUES ('ALUNO EXCLUIDO', OLD.nome, NOW()); END;",
+        initialQuery: "CREATE TRIGGER trg_aluno_deletado\nAFTER DELETE ON Alunos\nFOR EACH ROW\nINSERT INTO Log_Auditoria (acao, usuario_afetado, data_acao)\nVALUES ('ALUNO EXCLUIDO', OLD.nome, NOW());",
+        referenceQuery: "CREATE TRIGGER trg_aluno_deletado AFTER DELETE ON Alunos FOR EACH ROW INSERT INTO Log_Auditoria (acao, usuario_afetado, data_acao) VALUES ('ALUNO EXCLUIDO', OLD.nome, NOW());",
+        tables: ["Alunos", "Log_Auditoria"],
+        validationType: "schema"
+    },
+    {
+        id: 19,
+        section: "5. Estruturas Avançadas",
+        title: "5.4. Criar um INDEX",
+        difficulty: "difícil",
+        description: "Melhore a performance de buscas pelo CPF do aluno criando um índice chamado <code>idx_cpf_aluno</code> na tabela de <code>Alunos</code> (na coluna cpf).",
+        tip: "Use a sintaxe: CREATE INDEX idx_cpf_aluno ON Alunos(cpf);",
+        initialQuery: "CREATE INDEX idx_cpf_aluno ON Alunos(cpf);",
+        referenceQuery: "CREATE INDEX idx_cpf_aluno ON Alunos(cpf);",
+        tables: ["Alunos"],
+        validationType: "schema"
+    },
+
+    // 6. Controle de Acesso e Segurança (DCL)
+    {
+        id: 20,
+        section: "6. Controle de Segurança",
+        title: "6.1. Comando GRANT",
+        difficulty: "difícil",
+        description: "Conceda permissão de leitura (SELECT) e inserção (INSERT) na tabela de <code>Matriculas</code> para o usuário <code>'usuario_secretaria'@'localhost'</code>.<br><em>Nota: Validaremos conceitualmente sua query.</em>",
+        tip: "Use a sintaxe: GRANT SELECT, INSERT ON Matriculas TO 'usuario_secretaria'@'localhost';",
+        initialQuery: "GRANT SELECT, INSERT ON Matriculas TO 'usuario_secretaria'@'localhost';",
+        referenceQuery: "GRANT SELECT, INSERT ON Matriculas TO 'usuario_secretaria'@'localhost';",
+        tables: ["Matriculas"],
+        validationType: "text"
+    },
+    {
+        id: 21,
+        section: "6. Controle de Segurança",
+        title: "6.2. Comando REVOKE",
+        difficulty: "difícil",
+        description: "Remova a permissão de exclusão (DELETE) na tabela de <code>Matriculas</code> do usuário <code>'usuario_secretaria'@'localhost'</code>.<br><em>Nota: Validaremos conceitualmente sua query.</em>",
+        tip: "Use a sintaxe: REVOKE DELETE ON Matriculas FROM 'usuario_secretaria'@'localhost';",
+        initialQuery: "REVOKE DELETE ON Matriculas FROM 'usuario_secretaria'@'localhost';",
+        referenceQuery: "REVOKE DELETE ON Matriculas FROM 'usuario_secretaria'@'localhost';",
+        tables: ["Matriculas"],
+        validationType: "text"
     }
 ];
 
 // 2. Metadados do Esquema de Dados
 const schemas = {
-    vendas: [
-        { name: "id", type: "INTEGER (PK)" },
-        { name: "data_venda", type: "TEXT (YYYY-MM-DD)" },
-        { name: "cliente_id", type: "INTEGER" },
-        { name: "produto_id", type: "INTEGER (FK)" },
-        { name: "quantidade", type: "INTEGER" },
-        { name: "valor_total", type: "REAL" }
-    ],
-    produtos: [
-        { name: "id", type: "INTEGER (PK)" },
+    Alunos: [
+        { name: "id_aluno", type: "INTEGER (PK)" },
         { name: "nome", type: "TEXT" },
-        { name: "categoria", type: "TEXT" },
-        { name: "preco", type: "REAL" }
+        { name: "email", type: "TEXT" },
+        { name: "data_nascimento", type: "TEXT (YYYY-MM-DD)" },
+        { name: "cidade", type: "TEXT" },
+        { name: "status", type: "TEXT" },
+        { name: "cpf", type: "TEXT" }
     ],
-    funcionarios: [
-        { name: "id", type: "INTEGER (PK)" },
-        { name: "nome", type: "TEXT" },
-        { name: "departamento", type: "TEXT" },
-        { name: "salario", type: "REAL" },
-        { name: "cargo", type: "TEXT" }
+    Cursos: [
+        { name: "id_curso", type: "INTEGER (PK)" },
+        { name: "nome_curso", type: "TEXT" },
+        { name: "carga_horaria", type: "INTEGER" }
+    ],
+    Matriculas: [
+        { name: "id_matricula", type: "INTEGER (PK)" },
+        { name: "id_aluno", type: "INTEGER (FK)" },
+        { name: "id_curso", type: "INTEGER (FK)" },
+        { name: "data_matricula", type: "TEXT (YYYY-MM-DD)" }
+    ],
+    Log_Auditoria: [
+        { name: "id_log", type: "INTEGER (PK)" },
+        { name: "acao", type: "TEXT" },
+        { name: "usuario_afetado", type: "TEXT" },
+        { name: "data_acao", type: "TEXT" }
     ]
 };
 
@@ -150,81 +363,80 @@ async function initDatabase() {
 
 function createSchema() {
     db.run(`
-        CREATE TABLE produtos (
-            id INTEGER PRIMARY KEY,
+        CREATE TABLE Alunos (
+            id_aluno INTEGER PRIMARY KEY AUTOINCREMENT,
             nome TEXT NOT NULL,
-            categoria TEXT NOT NULL,
-            preco REAL NOT NULL
+            email TEXT NOT NULL,
+            data_nascimento TEXT NOT NULL,
+            cidade TEXT NOT NULL,
+            status TEXT NOT NULL,
+            cpf TEXT NOT NULL
         );
     `);
     
     db.run(`
-        CREATE TABLE vendas (
-            id INTEGER PRIMARY KEY,
-            data_venda TEXT NOT NULL,
-            cliente_id INTEGER NOT NULL,
-            produto_id INTEGER NOT NULL,
-            quantidade INTEGER NOT NULL,
-            valor_total REAL NOT NULL,
-            FOREIGN KEY (produto_id) REFERENCES produtos(id)
+        CREATE TABLE Cursos (
+            id_curso INTEGER PRIMARY KEY AUTOINCREMENT,
+            nome_curso TEXT NOT NULL,
+            carga_horaria INTEGER NOT NULL
         );
     `);
 
     db.run(`
-        CREATE TABLE funcionarios (
-            id INTEGER PRIMARY KEY,
-            nome TEXT NOT NULL,
-            departamento TEXT NOT NULL,
-            salario REAL NOT NULL,
-            cargo TEXT NOT NULL
+        CREATE TABLE Matriculas (
+            id_matricula INTEGER PRIMARY KEY AUTOINCREMENT,
+            id_aluno INTEGER NOT NULL,
+            id_curso INTEGER NOT NULL,
+            data_matricula TEXT NOT NULL,
+            FOREIGN KEY (id_aluno) REFERENCES Alunos(id_aluno),
+            FOREIGN KEY (id_curso) REFERENCES Cursos(id_curso)
+        );
+    `);
+
+    db.run(`
+        CREATE TABLE Log_Auditoria (
+            id_log INTEGER PRIMARY KEY AUTOINCREMENT,
+            acao TEXT NOT NULL,
+            usuario_afetado TEXT NOT NULL,
+            data_acao TEXT NOT NULL
         );
     `);
 }
 
 function seedData() {
-    // Seed produtos
+    // Seed Alunos
     db.run(`
-        INSERT INTO produtos (id, nome, categoria, preco) VALUES
-        (1, 'Notebook Dell Core i7', 'Eletrônicos', 4500.00),
-        (2, 'Smartphone Samsung S23', 'Eletrônicos', 2500.00),
-        (3, 'Cadeira Ergonômica', 'Móveis', 850.00),
-        (4, 'Mesa Regulável Escritório', 'Móveis', 1200.00),
-        (5, 'Caneta Gel Azul', 'Papelaria', 2.50),
-        (6, 'Caderno Inteligente A4', 'Papelaria', 89.90),
-        (7, 'Fone de Ouvido Noise Cancelling', 'Eletrônicos', 799.00),
-        (8, 'Teclado Mecânico RGB', 'Eletrônicos', 350.00);
+        INSERT INTO Alunos (id_aluno, nome, email, data_nascimento, cidade, status, cpf) VALUES
+        (1, 'Lucas Andrade', 'lucas@email.com', '1998-05-15', 'Lages', 'Ativo', '123.456.789-00'),
+        (2, 'Mariana Costa', 'mariana@email.com', '2001-09-20', 'Florianópolis', 'Ativo', '987.654.321-11'),
+        (3, 'Ana Souza', 'ana@email.com', '1995-02-10', 'Lages', 'Inativo', '456.123.789-22'),
+        (4, 'Carlos Oliveira', 'carlos@email.com', '2003-11-30', 'Lages', 'Ativo', '321.654.987-33'),
+        (5, 'Beatriz Santos', 'beatriz@email.com', '2000-07-25', 'Blumenau', 'Ativo', '789.456.123-44'),
+        (6, 'Juliana Lima', 'juliana@email.com', '1999-12-05', 'Joinville', 'Ativo', '159.753.486-55'),
+        (7, 'Pedro Rocha', 'pedro@email.com', '2002-04-18', 'Lages', 'Ativo', '753.159.846-66');
     `);
     
-    // Seed vendas
+    // Seed Cursos
     db.run(`
-        INSERT INTO vendas (id, data_venda, cliente_id, produto_id, quantidade, valor_total) VALUES
-        (1, '2026-05-10', 101, 1, 1, 4500.00),
-        (2, '2026-05-11', 102, 2, 2, 5000.00),
-        (3, '2026-05-12', 101, 3, 1, 850.00),
-        (4, '2026-05-13', 103, 5, 10, 25.00),
-        (5, '2026-05-14', 102, 6, 2, 179.80),
-        (6, '2026-05-15', 104, 1, 1, 4500.00),
-        (7, '2026-05-16', 101, 2, 1, 2500.00),
-        (8, '2026-05-17', 103, 7, 2, 1598.00),
-        (9, '2026-05-18', 105, 3, 4, 3400.00),
-        (10, '2026-05-19', 102, 5, 4, 10.00),
-        (11, '2026-05-20', 104, 8, 1, 350.00),
-        (12, '2026-05-21', 101, 8, 2, 700.00);
+        INSERT INTO Cursos (id_curso, nome_curso, carga_horaria) VALUES
+        (1, 'Banco de Dados SQL', 60),
+        (2, 'Introdução ao HTML e CSS', 30),
+        (3, 'Lógica de Programação', 40),
+        (4, 'Desenvolvimento Web com JavaScript', 80),
+        (5, 'Algoritmos Estruturados', 45);
     `);
 
-    // Seed funcionarios
+    // Seed Matriculas
     db.run(`
-        INSERT INTO funcionarios (id, nome, departamento, salario, cargo) VALUES
-        (1, 'Ana Clara Silva', 'Tecnologia', 6500.00, 'Desenvolvedora Júnior'),
-        (2, 'Bruno Santos', 'Tecnologia', 9200.00, 'Engenheiro de Software Sênior'),
-        (3, 'Carla Oliveira', 'Vendas', 4500.00, 'Analista Comercial'),
-        (4, 'Diego Costa', 'Vendas', 3800.00, 'Assistente de Vendas'),
-        (5, 'Elena Rodrigues', 'Recursos Humanos', 5200.00, 'Analista de DP'),
-        (6, 'Fernando Souza', 'Tecnologia', 4200.00, 'Suporte Técnico'),
-        (7, 'Gisele Lima', 'Vendas', 6100.00, 'Coordenadora de Vendas'),
-        (8, 'Hugo Pereira', 'Recursos Humanos', 8500.00, 'Gerente de RH'),
-        (9, 'Juliana Mendes', 'Marketing', 4900.00, 'Designer Gráfico'),
-        (10, 'Lucas Rocha', 'Marketing', 5600.00, 'Analista de SEO');
+        INSERT INTO Matriculas (id_matricula, id_aluno, id_curso, data_matricula) VALUES
+        (1, 1, 1, '2026-02-15'),
+        (2, 2, 4, '2026-03-01'),
+        (3, 3, 1, '2026-01-10'),
+        (4, 4, 3, '2026-02-20'),
+        (5, 5, 5, '2026-04-05'),
+        (6, 1, 4, '2026-05-10'),
+        (7, 6, 2, '2026-01-15'),
+        (8, 7, 3, '2026-06-01');
     `);
 }
 
@@ -267,8 +479,13 @@ function loadQuestion(id) {
     // Atualizar esquema recomendado
     updateSchemaViewer(question.tables);
     
-    // Atualizar tabela de gabarito esperado na segunda aba
-    renderExpectedTable(question.referenceQuery);
+    // Atualizar tabela de gabarito esperado na segunda aba - Apenas se for uma consulta tabular
+    if (question.validationType === 'query') {
+        renderExpectedTable(question.referenceQuery);
+    } else {
+        expectedResultTableContainer.style.display = "none";
+        expectedResultTable.innerHTML = "<tr><td>Este exercício realiza alterações de estrutura/segurança no banco. Sem resultado tabular esperado.</td></tr>";
+    }
 }
 
 function updateLineNumbers() {
@@ -278,30 +495,46 @@ function updateLineNumbers() {
 
 function renderQuestionList() {
     questionListContainer.innerHTML = "";
+    
+    // Agrupar questões por seção para visualização limpa e estruturada
+    const sections = {};
     questions.forEach(q => {
-        const isSolved = solvedQuestions.has(q.id);
-        const card = document.createElement("div");
-        card.className = `quest-card ${isSolved ? "solved" : ""} ${q.id === activeQuestionId ? "active" : ""}`;
-        card.setAttribute("data-id", q.id);
-        
-        card.innerHTML = `
-            <div class="quest-info">
-                <span class="quest-title">${q.title}</span>
-                <span class="quest-meta">Dificuldade: ${q.difficulty}</span>
-            </div>
-            <div class="quest-status">
-                ${isSolved ? `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>` : ""}
-            </div>
-        `;
-        
-        card.addEventListener("click", () => {
-            // Salvar rascunho da questão atual antes de mudar
-            saveCurrentDraft();
-            loadQuestion(q.id);
-        });
-
-        questionListContainer.appendChild(card);
+        if (!sections[q.section]) {
+            sections[q.section] = [];
+        }
+        sections[q.section].push(q);
     });
+
+    for (const [sectionName, sectionQuests] of Object.entries(sections)) {
+        // Cabeçalho da Seção
+        const sectionHeader = document.createElement("div");
+        sectionHeader.className = "sidebar-section-title";
+        sectionHeader.textContent = sectionName;
+        questionListContainer.appendChild(sectionHeader);
+
+        sectionQuests.forEach(q => {
+            const isSolved = solvedQuestions.has(q.id);
+            const card = document.createElement("div");
+            card.className = `quest-card ${isSolved ? "solved" : ""} ${q.id === activeQuestionId ? "active" : ""}`;
+            card.setAttribute("data-id", q.id);
+            
+            card.innerHTML = `
+                <div class="quest-info">
+                    <span class="quest-title">${q.title}</span>
+                </div>
+                <div class="quest-status">
+                    ${isSolved ? `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>` : ""}
+                </div>
+            `;
+            
+            card.addEventListener("click", () => {
+                saveCurrentDraft();
+                loadQuestion(q.id);
+            });
+
+            questionListContainer.appendChild(card);
+        });
+    }
 }
 
 function saveCurrentDraft() {
@@ -311,13 +544,13 @@ function saveCurrentDraft() {
 }
 
 // 6. Visualizador do Esquema do Banco
-function updateSchemaViewer(visibleTables = ["vendas", "produtos", "funcionarios"]) {
+function updateSchemaViewer(visibleTables = ["Alunos", "Cursos", "Matriculas", "Log_Auditoria"]) {
     schemaTabs.innerHTML = "";
     
     visibleTables.forEach((tableName, index) => {
         const tabBtn = document.createElement("button");
         tabBtn.className = `schema-tab-btn ${index === 0 ? "active" : ""}`;
-        tabBtn.textContent = tableName.charAt(0).toUpperCase() + tableName.slice(1);
+        tabBtn.textContent = tableName;
         tabBtn.setAttribute("data-table", tableName);
         
         tabBtn.addEventListener("click", () => {
@@ -362,7 +595,7 @@ function updateSchemaDataTab() {
         container.innerHTML = "";
 
         if (result.length === 0) {
-            container.innerHTML = "<tr><td>Tabela vazia.</td></tr>";
+            container.innerHTML = "<tr><td>Tabela vazia ou sem dados registrados.</td></tr>";
             return;
         }
 
@@ -402,7 +635,6 @@ function resetResultsArea() {
     // Reset aba do usuário
     userResultPlaceholder.style.display = "flex";
     userResultPlaceholder.innerHTML = `
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
         <p>Execute a consulta para visualizar os resultados aqui.</p>
     `;
     userResultTableContainer.style.display = "none";
@@ -462,13 +694,33 @@ function runUserSQL(showSuccessTab = true) {
         return null;
     }
 
+    const normalizedQuery = userQuery.replace(/\s+/g, ' ').toLowerCase();
+
+    // Se o usuário tentar rodar comandos de DCL ou Procedure diretamente no SQLite, barramos amigavelmente
+    if (normalizedQuery.includes("create procedure") || normalizedQuery.includes("delimiter") || normalizedQuery.includes("grant ") || normalizedQuery.includes("revoke ")) {
+        userResultTableContainer.style.display = "none";
+        userResultPlaceholder.style.display = "flex";
+        showErrorFeedback("O SQLite local não aceita este comando diretamente. Clique em 'Validar Resposta' para realizar a validação conceitual.");
+        if (showSuccessTab) switchTab("tab-user-result");
+        return null;
+    }
+
+    // Para evitar erros de "already exists" na execução múltipla de DDLs
+    if (normalizedQuery.includes("create view vw_alunos_cursos")) {
+        try { db.run("DROP VIEW IF EXISTS vw_alunos_cursos;"); } catch(e){}
+    } else if (normalizedQuery.includes("create trigger trg_aluno_deletado")) {
+        try { db.run("DROP TRIGGER IF EXISTS trg_aluno_deletado;"); } catch(e){}
+    } else if (normalizedQuery.includes("create index idx_cpf_aluno")) {
+        try { db.run("DROP INDEX IF EXISTS idx_cpf_aluno;"); } catch(e){}
+    }
+
     try {
         const result = db.exec(userQuery);
         userResultPlaceholder.style.display = "none";
         userResultTableContainer.style.display = "block";
 
         if (result.length === 0) {
-            userResultTable.innerHTML = "<thead><tr><th>Mensagem</th></tr></thead><tbody><tr><td>Consulta executada com sucesso, mas nenhuma linha foi retornada.</td></tr></tbody>";
+            userResultTable.innerHTML = "<thead><tr><th>Mensagem</th></tr></thead><tbody><tr><td>Comando executado com sucesso, mas nenhum resultado tabular foi retornado.</td></tr></tbody>";
             if (showSuccessTab) switchTab("tab-user-result");
             return [];
         }
@@ -488,7 +740,6 @@ function runUserSQL(showSuccessTab = true) {
 function showErrorFeedback(msg) {
     userResultPlaceholder.innerHTML = `
         <div class="feedback-box error">
-            <span class="feedback-icon">⚠️</span>
             <div>
                 <strong>Erro de Execução SQL:</strong><br>
                 <span>${msg}</span>
@@ -497,66 +748,223 @@ function showErrorFeedback(msg) {
     `;
 }
 
-// 8. Sistema de Validação da Resposta
+// 8. Validador Customizado para SQLite e Atividades do Roteiro
+function validateQuestion(id, userQuery, db) {
+    const question = questions.find(q => q.id === id);
+    if (!question) return { valid: false, message: "Questão não encontrada." };
+
+    const normalizedUser = userQuery.replace(/\s+/g, ' ').trim().toLowerCase();
+    const normalizedRef = question.referenceQuery.replace(/\s+/g, ' ').trim().toLowerCase();
+
+    // 8.1. Validação Textual (Para comandos não nativos do SQLite: Procedure, DCL)
+    if (question.validationType === 'text') {
+        const cleanUser = normalizedUser.replace(/;/g, '').replace(/['"`]/g, '');
+        
+        if (id === 17) { // sp_RealizarMatricula
+            const hasProc = cleanUser.includes("create procedure sp_realizarmatricula") || cleanUser.includes("create procedure `sp_realizarmatricula`") || cleanUser.includes("sp_realizarmatricula(in p_id_aluno int, in p_id_curso int)");
+            const hasInsert = cleanUser.includes("insert into matriculas") && cleanUser.includes("id_aluno") && cleanUser.includes("id_curso");
+            const hasValues = cleanUser.includes("values") && cleanUser.includes("p_id_aluno") && cleanUser.includes("p_id_curso") && (cleanUser.includes("curdate()") || cleanUser.includes("curdate") || cleanUser.includes("now()") || cleanUser.includes("date("));
+            
+            if (hasProc && hasInsert && hasValues) {
+                return { valid: true };
+            }
+            return { 
+                valid: false, 
+                message: "A procedure precisa declarar a assinatura `sp_RealizarMatricula(IN p_id_aluno INT, IN p_id_curso INT)` e realizar o `INSERT INTO Matriculas` contendo as colunas e os parâmetros correspondentes (como CURDATE())." 
+            };
+        }
+        
+        if (id === 20) { // GRANT
+            const hasGrant = cleanUser.includes("grant select, insert") || cleanUser.includes("grant select,insert") || (cleanUser.includes("grant select") && cleanUser.includes("insert"));
+            const hasOn = cleanUser.includes("on matriculas");
+            const hasTo = cleanUser.includes("to usuario_secretaria@localhost") || cleanUser.includes("to 'usuario_secretaria'@'localhost'") || cleanUser.includes("to `usuario_secretaria`@`localhost`") || cleanUser.includes("to usuario_secretaria");
+            
+            if (hasGrant && hasOn && hasTo) {
+                return { valid: true };
+            }
+            return { 
+                valid: false, 
+                message: "Certifique-se de usar a sintaxe `GRANT SELECT, INSERT ON Matriculas TO 'usuario_secretaria'@'localhost';`" 
+            };
+        }
+        
+        if (id === 21) { // REVOKE
+            const hasRevoke = cleanUser.includes("revoke delete");
+            const hasOn = cleanUser.includes("on matriculas");
+            const hasFrom = cleanUser.includes("from usuario_secretaria@localhost") || cleanUser.includes("from 'usuario_secretaria'@'localhost'") || cleanUser.includes("from `usuario_secretaria`@`localhost`") || cleanUser.includes("from usuario_secretaria");
+            
+            if (hasRevoke && hasOn && hasFrom) {
+                return { valid: true };
+            }
+            return { 
+                valid: false, 
+                message: "Certifique-se de usar a sintaxe `REVOKE DELETE ON Matriculas FROM 'usuario_secretaria'@'localhost';`" 
+            };
+        }
+    }
+
+    // 8.2. Validação do Esquema Físico (CREATE VIEW, TRIGGER, INDEX)
+    if (question.validationType === 'schema') {
+        try {
+            if (id === 16) { // CREATE VIEW vw_alunos_cursos
+                db.run("DROP VIEW IF EXISTS vw_alunos_cursos;");
+                db.run(userQuery);
+                
+                const userRes = db.exec("SELECT * FROM vw_alunos_cursos;");
+                const refRes = db.exec("SELECT A.nome, C.nome_curso, M.data_matricula FROM Alunos A JOIN Matriculas M ON A.id_aluno = M.id_aluno JOIN Cursos C ON M.id_curso = C.id_curso;");
+                return compareResults(userRes, refRes);
+            }
+            
+            if (id === 18) { // CREATE TRIGGER trg_aluno_deletado
+                db.run("DROP TRIGGER IF EXISTS trg_aluno_deletado;");
+                db.run("DROP TABLE IF EXISTS Log_Auditoria;");
+                db.run(`
+                    CREATE TABLE Log_Auditoria (
+                        id_log INTEGER PRIMARY KEY AUTOINCREMENT,
+                        acao TEXT NOT NULL,
+                        usuario_afetado TEXT NOT NULL,
+                        data_acao TEXT NOT NULL
+                    );
+                `);
+                
+                // Mapear MySQL NOW() para SQLite datetime('now') para poder executar sem erros
+                let sqliteTriggerQuery = userQuery.replace(/now\(\)/ig, "datetime('now')");
+                db.run(sqliteTriggerQuery);
+                
+                // Insere Ana Souza para exclusão se necessário
+                const checkAluno = db.exec("SELECT nome FROM Alunos WHERE id_aluno = 3;");
+                if (checkAluno.length === 0 || checkAluno[0].values.length === 0) {
+                    db.run("INSERT INTO Alunos (id_aluno, nome, email, data_nascimento, cidade, status, cpf) VALUES (3, 'Ana Souza', 'ana@email.com', '1995-02-10', 'Lages', 'Inativo', '456.123.789-22');");
+                }
+                
+                db.run("DELETE FROM Alunos WHERE id_aluno = 3;");
+                
+                const logs = db.exec("SELECT acao, usuario_afetado FROM Log_Auditoria;");
+                if (logs.length > 0 && logs[0].values.length > 0) {
+                    const row = logs[0].values[0];
+                    if (row[0].toUpperCase() === 'ALUNO EXCLUIDO' && row[1] === 'Ana Souza') {
+                        return { valid: true };
+                    }
+                }
+                return { 
+                    valid: false, 
+                    message: "O trigger não inseriu o log correto em Log_Auditoria com a ação 'ALUNO EXCLUIDO' e nome correto do aluno após a deleção." 
+                };
+            }
+            
+            if (id === 19) { // CREATE INDEX idx_cpf_aluno
+                db.run("DROP INDEX IF EXISTS idx_cpf_aluno;");
+                db.run(userQuery);
+                
+                const indexCheck = db.exec("SELECT name FROM sqlite_master WHERE type='index' AND name='idx_cpf_aluno';");
+                if (indexCheck.length > 0 && indexCheck[0].values.length > 0) {
+                    return { valid: true };
+                }
+                return { 
+                    valid: false, 
+                    message: "Não foi encontrado o índice 'idx_cpf_aluno' criado na tabela Alunos." 
+                };
+            }
+        } catch (e) {
+            return { valid: false, message: "Erro de execução da instrução DDL/DML: " + e.message };
+        }
+    }
+
+    // 8.3. Validação Padrão de Consultas SELECT
+    try {
+        const refResult = db.exec(question.referenceQuery);
+        const userResult = db.exec(userQuery);
+        return compareResults(userResult, refResult);
+    } catch (e) {
+        return { valid: false, message: e.message };
+    }
+}
+
+// 9. Sistema de Validação da Resposta
 function validateAnswer() {
-    const userResult = runUserSQL(false);
-    if (!userResult) return; // Erro de sintaxe já exibido no console da aba
+    const userQuery = sqlEditor.value.trim();
+    if (!userQuery) {
+        showErrorFeedback("O editor está vazio! Escreva uma query SQL.");
+        return;
+    }
 
     const question = questions.find(q => q.id === activeQuestionId);
     if (!question) return;
 
+    let userResult = null;
+    
+    // Apenas executamos runUserSQL no fluxo de validação se for consulta tabular (SELECT),
+    // para evitar que DDLs criados repetidamente causem erro visual na aba de resultados.
+    if (question.validationType === 'query') {
+        userResult = runUserSQL(false);
+    } else {
+        userResultPlaceholder.style.display = "flex";
+        userResultPlaceholder.innerHTML = `
+            <div class="feedback-box info">
+                <div>
+                    <strong>Comando Estrutural:</strong><br>
+                    <span>Esta query foi validada logicamente no banco de dados.</span>
+                </div>
+            </div>
+        `;
+        userResultTableContainer.style.display = "none";
+    }
+
     try {
-        const refResult = db.exec(question.referenceQuery);
-        const validation = compareResults(userResult, refResult);
+        const validation = validateQuestion(activeQuestionId, userQuery, db);
 
         if (validation.valid) {
             // Sucesso!
             solvedQuestions.add(activeQuestionId);
             saveProgress();
             
-            // Render feedback de sucesso na tela de resultados
             userResultPlaceholder.style.display = "flex";
             userResultPlaceholder.innerHTML = `
                 <div class="feedback-box success">
-                    <span class="feedback-icon">🎉</span>
                     <div>
                         <strong>Resposta Correta! Excelente trabalho!</strong><br>
                         <span>Sua consulta retornou exatamente o conjunto de dados esperado.</span>
                     </div>
                 </div>
             `;
-            userResultTableContainer.style.display = "block"; // mantém a tabela visível abaixo do balão, reinserindo o balão no topo
-            userResultPlaceholder.parentNode.insertBefore(userResultPlaceholder, userResultTableContainer);
+            if (question.validationType === 'query' && userResult && userResult.length > 0) {
+                userResultTableContainer.style.display = "block";
+                userResultPlaceholder.parentNode.insertBefore(userResultPlaceholder, userResultTableContainer);
+            } else {
+                userResultTableContainer.style.display = "none";
+            }
 
-            // Atualiza barra de progresso e sidebar
             renderQuestionList();
             updateProgressBar();
 
-            // Verifica se concluiu todas as questões
             if (solvedQuestions.size === questions.length) {
                 setTimeout(() => {
                     successModal.style.display = "flex";
                 }, 800);
             }
         } else {
-            // Falhou na lógica
+            // Falhou
             userResultPlaceholder.style.display = "flex";
             userResultPlaceholder.innerHTML = `
                 <div class="feedback-box error">
-                    <span class="feedback-icon">❌</span>
                     <div>
                         <strong>Quase lá! Mas o resultado é diferente do esperado:</strong><br>
                         <span>${validation.message}</span>
                     </div>
                 </div>
             `;
-            userResultPlaceholder.parentNode.insertBefore(userResultPlaceholder, userResultTableContainer);
+            if (question.validationType === 'query' && userResult && userResult.length > 0) {
+                userResultTableContainer.style.display = "block";
+                userResultPlaceholder.parentNode.insertBefore(userResultPlaceholder, userResultTableContainer);
+            } else {
+                userResultTableContainer.style.display = "none";
+            }
         }
         
         switchTab("tab-user-result");
     } catch (e) {
         console.error(e);
-        showErrorFeedback("Erro interno ao validar a consulta: " + e.message);
+        showErrorFeedback("Erro ao validar consulta: " + e.message);
     }
 }
 
@@ -571,33 +979,33 @@ function compareResults(userRes, refRes) {
     const uData = userRes[0];
     const rData = refRes[0];
 
-    // Verificar quantidade de colunas
+    // Verificar colunas
     if (uData.columns.length !== rData.columns.length) {
         return { 
             valid: false, 
-            message: `A quantidade de colunas retornada está incorreta. Esperava-se ${rData.columns.length} colunas, mas sua query retornou ${uData.columns.length}.`
+            message: `Quantidade de colunas incorreta. Esperado: ${rData.columns.length}, Obtido: ${uData.columns.length}.`
         };
     }
 
-    // Verificar quantidade de linhas
+    // Verificar linhas
     if (uData.values.length !== rData.values.length) {
         return {
             valid: false,
-            message: `O número de linhas retornado difere do esperado. Sua query retornou ${uData.values.length} linhas, mas o correto seria ${rData.values.length}. Verifique as condições de agrupamento ou filtros.`
+            message: `Número de linhas divergente. Esperado: ${rData.values.length}, Obtido: ${uData.values.length}.`
         };
     }
 
-    // Verificar nomes das colunas
+    // Verificar nomes das colunas (case-insensitive)
     for (let i = 0; i < rData.columns.length; i++) {
         if (uData.columns[i].toLowerCase() !== rData.columns[i].toLowerCase()) {
             return {
                 valid: false,
-                message: `O apelido/nome da coluna na posição ${i+1} está incorreto. Esperava-se "${rData.columns[i]}", mas obteve-se "${uData.columns[i]}". Lembre-se de usar "AS [nome_coluna]" se especificado.`
+                message: `Coluna na posição ${i+1} incorreta. Esperado: "${rData.columns[i]}", Obtido: "${uData.columns[i]}". Lembre-se do "AS".`
             };
         }
     }
 
-    // Verificar conteúdo de cada linha e coluna
+    // Verificar dados
     for (let r = 0; r < rData.values.length; r++) {
         const uRow = uData.values[r];
         const rRow = rData.values[r];
@@ -607,22 +1015,20 @@ function compareResults(userRes, refRes) {
             const rVal = rRow[c];
 
             if (typeof uVal === 'number' && typeof rVal === 'number') {
-                // Compara floats com tolerância a arredondamentos
                 if (Math.abs(uVal - rVal) > 0.01) {
                     return {
                         valid: false,
-                        message: `Dados divergentes na linha ${r+1}, coluna "${rData.columns[c]}". Obteve-se o valor ${uVal.toFixed(2)}, mas o esperado era ${rVal.toFixed(2)}.`
+                        message: `Divergência na linha ${r+1}, coluna "${rData.columns[c]}". Esperado: ${rVal.toFixed(2)}, Obtido: ${uVal.toFixed(2)}.`
                     };
                 }
             } else {
-                // Compara strings
                 const uStr = uVal === null ? "null" : String(uVal).trim().toLowerCase();
                 const rStr = rVal === null ? "null" : String(rVal).trim().toLowerCase();
 
                 if (uStr !== rStr) {
                     return {
                         valid: false,
-                        message: `Dados divergentes na linha ${r+1}, coluna "${rData.columns[c]}". Obteve-se o valor "${uVal}", mas o esperado era "${rVal}".`
+                        message: `Divergência na linha ${r+1}, coluna "${rData.columns[c]}". Esperado: "${rVal}", Obtido: "${uVal}".`
                     };
                 }
             }
@@ -632,7 +1038,7 @@ function compareResults(userRes, refRes) {
     return { valid: true };
 }
 
-// 9. Persistência de Progresso (Local Storage)
+// 10. Persistência de Progresso (Local Storage)
 function saveProgress() {
     localStorage.setItem("sql_solved_list", JSON.stringify(Array.from(solvedQuestions)));
     localStorage.setItem("sql_active_id", activeQuestionId);
@@ -664,7 +1070,6 @@ function updateProgressBar() {
 
 function resetProgress() {
     if (confirm("Tem certeza que deseja reiniciar o seu progresso e limpar todos os rascunhos?")) {
-        // Limpar rascunhos do localStorage
         questions.forEach(q => {
             localStorage.removeItem(`sql_save_q_${q.id}`);
         });
@@ -674,10 +1079,14 @@ function resetProgress() {
         solvedQuestions.clear();
         activeQuestionId = 1;
         
-        // Reinicializar banco de dados e UI
-        db.run("DROP TABLE IF EXISTS vendas;");
-        db.run("DROP TABLE IF EXISTS produtos;");
-        db.run("DROP TABLE IF EXISTS funcionarios;");
+        db.run("DROP TABLE IF EXISTS Alunos;");
+        db.run("DROP TABLE IF EXISTS Cursos;");
+        db.run("DROP TABLE IF EXISTS Matriculas;");
+        db.run("DROP TABLE IF EXISTS Log_Auditoria;");
+        db.run("DROP VIEW IF EXISTS vw_alunos_cursos;");
+        db.run("DROP TRIGGER IF EXISTS trg_aluno_deletado;");
+        db.run("DROP INDEX IF EXISTS idx_cpf_aluno;");
+        
         createSchema();
         seedData();
         
@@ -691,7 +1100,7 @@ function resetProgress() {
     }
 }
 
-// 10. Utilitários de Interface (Abas e Eventos)
+// 11. Utilitários de Interface (Abas e Eventos)
 function switchTab(tabId) {
     tabBtns.forEach(btn => {
         if (btn.getAttribute("data-tab") === tabId) {
@@ -712,10 +1121,8 @@ function switchTab(tabId) {
 
 // Configuração dos Event Listeners
 function setupEventListeners() {
-    // Sincronização de scrolling e números de linha
     sqlEditor.addEventListener("input", () => {
         updateLineNumbers();
-        // Salvar rascunho automático ao digitar
         saveCurrentDraft();
     });
     sqlEditor.addEventListener("scroll", () => {
@@ -734,24 +1141,18 @@ function setupEventListeners() {
         }
     });
 
-    // Executar e Validar
     btnRun.addEventListener("click", () => runUserSQL(true));
     btnSubmit.addEventListener("click", validateAnswer);
-
-    // Reiniciar
     btnResetDb.addEventListener("click", resetProgress);
 
-    // Navegação de Abas de Resultados
     tabBtns.forEach(btn => {
         btn.addEventListener("click", () => {
             switchTab(btn.getAttribute("data-tab"));
         });
     });
 
-    // Seletor de visualização de dados brutos
     schemaTableSelect.addEventListener("change", updateSchemaDataTab);
 
-    // Fechar modal de parabéns
     btnModalClose.addEventListener("click", () => {
         successModal.style.display = "none";
     });

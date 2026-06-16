@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Aprenda os fundamentos de Git e GitHub neste laboratório interativo com simulador de terminal e visualizações em tempo real.">
+  <title>Git & GitHub Interactive Lab</title>
+  <!-- Google Fonts: Inter e Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Ambient background glow elements -->
+  <div class="bg-glow glow-1"></div>
+  <div class="bg-glow glow-2"></div>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-logo">
+        <i data-lucide="git-branch" class="logo-icon animate-pulse"></i>
+        <h1>Git & GitHub <span>Lab</span></h1>
+      </div>
+      
+      <div class="header-progress">
+        <span class="progress-label">Progresso Geral:</span>
+        <div class="progress-bar-container">
+          <div id="general-progress-bar" class="progress-bar" style="width: 0%;"></div>
+        </div>
+        <span id="progress-percent" class="progress-percent">0%</span>
+      </div>
+
+      <div class="header-actions">
+        <button id="btn-sandbox" class="btn-toggle" title="Alternar Modo Livre">
+          <i data-lucide="play-circle"></i>
+          <span>Modo Livre</span>
+        </button>
+        <button id="btn-reset" class="btn-secondary" title="Reiniciar Laboratório">
+          <i data-lucide="refresh-cw"></i>
+          <span>Reiniciar</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="app-main">
+      <!-- Left Column: Tutorial / Instructions -->
+      <aside class="panel tutorial-panel" aria-label="Instruções do Tutorial">
+        <div class="panel-header">
+          <i data-lucide="book-open" class="text-primary"></i>
+          <h2>Guia do Aprendizado</h2>
+        </div>
+        
+        <div class="level-selector-wrapper">
+          <label for="level-select">Ir para o Nível:</label>
+          <select id="level-select" class="level-select">
+            <option value="1">1. Configurações Iniciais (git config)</option>
+            <option value="2">2. Iniciar Repositório (git init)</option>
+            <option value="3">3. Clonar Repositório (git clone)</option>
+            <option value="4">4. Preparar Arquivos (git add)</option>
+            <option value="5">5. Confirmar Alterações (git commit)</option>
+            <option value="6">6. Enviar ao GitHub (git push)</option>
+            <option value="7">7. Puxar Atualizações (git pull)</option>
+          </select>
+        </div>
+
+        <div class="panel-content scrollable">
+          <div id="tutorial-content" class="tutorial-instructions">
+            <!-- Dynamic content injected by app.js -->
+            <h3 id="tut-title">Nível 1: Configurando as Credenciais</h3>
+            <p id="tut-description">Antes de começar a registrar suas alterações, você precisa dizer ao Git quem você é. Isso é importante porque cada commit do Git usa essa informação.</p>
+            
+            <div class="tips-box">
+              <h4><i data-lucide="info"></i> Dica de Git</h4>
+              <p id="tut-tip">Use aspas duplas no seu nome caso ele contenha espaços.</p>
+            </div>
+
+            <div class="objectives-container">
+              <h4>Objetivos</h4>
+              <ul id="objectives-list" class="objectives-list">
+                <!-- Objectives will go here -->
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-footer">
+          <button id="btn-prev-level" class="btn-nav" disabled>
+            <i data-lucide="chevron-left"></i> Anterior
+          </button>
+          <span id="level-indicator" class="level-indicator">Nível 1 de 7</span>
+          <button id="btn-next-level" class="btn-nav" disabled>
+            Próximo <i data-lucide="chevron-right"></i>
+          </button>
+        </div>
+      </aside>
+
+      <!-- Center Column: File Editor & Terminal -->
+      <section class="center-workspace" aria-label="Espaço de Trabalho">
+        <!-- Editor / Virtual File Tree -->
+        <div class="panel editor-panel">
+          <div class="panel-header tab-header">
+            <div class="tabs">
+              <div class="tab active" data-file="index.html">
+                <i data-lucide="file-code" class="file-icon index-icon"></i>
+                <span>index.html</span>
+              </div>
+              <div class="tab" data-file="readme.md">
+                <i data-lucide="file-text" class="file-icon readme-icon"></i>
+                <span>README.md</span>
+              </div>
+            </div>
+            <div class="file-actions">
+              <span class="file-status-badge status-modified" id="file-status-lbl">Não Salvo / Modificado</span>
+            </div>
+          </div>
+          
+          <div class="panel-content editor-body">
+            <div class="line-numbers">
+              <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+            </div>
+            <textarea id="file-textarea" spellcheck="false" placeholder="Escreva seu código aqui..."></textarea>
+          </div>
+          
+          <div class="editor-footer">
+            <span class="editor-path"><i data-lucide="folder"></i> /workspace/<span id="current-filepath">index.html</span></span>
+            <button id="btn-save-file" class="btn-primary btn-sm">
+              <i data-lucide="save"></i> Salvar Arquivo
+            </button>
+          </div>
+        </div>
+
+        <!-- Terminal Emulator -->
+        <div class="panel terminal-panel">
+          <div class="panel-header terminal-header">
+            <div class="terminal-dots">
+              <span class="dot close"></span>
+              <span class="dot minimize"></span>
+              <span class="dot maximize"></span>
+            </div>
+            <div class="terminal-title">
+              <i data-lucide="terminal"></i> bash - git-simulation-terminal
+            </div>
+            <button id="btn-clear-term" class="btn-icon" title="Limpar Terminal">
+              <i data-lucide="trash-2"></i>
+            </button>
+          </div>
+          
+          <div class="panel-content terminal-body scrollable" id="terminal-output">
+            <div class="terminal-line system-msg">
+              Bem-vindo ao Git & GitHub Lab! Digite <span class="cmd-highlight">help</span> para ver os comandos disponíveis.
+            </div>
+            <!-- Lines of input/output will be appended here -->
+          </div>
+          
+          <div class="terminal-input-container">
+            <span class="terminal-prompt" id="terminal-prompt-prefix">user@git-lab:~$</span>
+            <input type="text" id="terminal-input" autocomplete="off" spellcheck="false" placeholder="Digite o comando git aqui...">
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Git Visualizer Flow & GitHub simulation -->
+      <section class="git-visualizer" aria-label="Visualizador do Fluxo do Git">
+        
+        <!-- Local Git States visual map -->
+        <div class="visual-flow-container">
+          <!-- Col 1: Working Directory -->
+          <div class="flow-column" id="col-working-dir">
+            <div class="column-header">
+              <i data-lucide="folder-open" class="col-icon"></i>
+              <h3>Working Directory</h3>
+              <span class="badge" id="badge-working-count">0</span>
+            </div>
+            <div class="column-content files-list" id="working-dir-files">
+              <!-- Dynamically populated files -->
+              <p class="empty-placeholder">Nenhum arquivo modificado</p>
+            </div>
+          </div>
+
+          <!-- Flow Arrow -->
+          <div class="flow-arrow">
+            <i data-lucide="arrow-right" class="arrow-icon"></i>
+            <span class="arrow-text">git add</span>
+          </div>
+
+          <!-- Col 2: Staging Area -->
+          <div class="flow-column" id="col-staging">
+            <div class="column-header">
+              <i data-lucide="archive" class="col-icon"></i>
+              <h3>Staging Area</h3>
+              <span class="badge" id="badge-staging-count">0</span>
+            </div>
+            <div class="column-content files-list" id="staging-files">
+              <!-- Dynamically populated files -->
+              <p class="empty-placeholder">Nenhum arquivo na staging area</p>
+            </div>
+          </div>
+
+          <!-- Flow Arrow -->
+          <div class="flow-arrow">
+            <i data-lucide="arrow-right" class="arrow-icon"></i>
+            <span class="arrow-text">git commit</span>
+          </div>
+
+          <!-- Col 3: Local Repository -->
+          <div class="flow-column" id="col-local-repo">
+            <div class="column-header">
+              <i data-lucide="database" class="col-icon"></i>
+              <h3>Local Repo</h3>
+              <span class="badge" id="badge-commits-count">0</span>
+            </div>
+            <div class="column-content" id="local-repo-commits">
+              <div class="branch-indicator-badge">
+                <i data-lucide="git-branch"></i> branch: <span id="local-branch-name">main</span>
+              </div>
+              <div class="commits-timeline" id="local-commits-timeline">
+                <p class="empty-placeholder">Repositório não inicializado ou sem commits. Digite <span class="cmd-highlight">git init</span> para começar.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- GitHub / Remote Repository Simulation -->
+        <div class="panel github-simulation-panel">
+          <div class="panel-header github-header">
+            <div class="github-title">
+              <i data-lucide="github"></i> github.com / <span id="github-repo-path">user/project-repo</span>
+            </div>
+            <div class="github-status">
+              <span class="status-dot disconnected" id="github-conn-status"></span>
+              <span id="github-conn-lbl">Desconectado</span>
+            </div>
+          </div>
+          
+          <div class="panel-content github-body">
+            <div class="github-repo-meta">
+              <div class="github-meta-item">
+                <i data-lucide="git-commit"></i>
+                <strong id="github-commits-count">0</strong> commits
+              </div>
+              <div class="github-meta-item">
+                <i data-lucide="git-branch"></i>
+                <strong>main</strong>
+              </div>
+            </div>
+            
+            <div class="github-files-view">
+              <div class="files-header">
+                <span>Arquivos no GitHub</span>
+                <span id="github-branch-lbl">main</span>
+              </div>
+              <div class="files-list-github" id="github-files-list">
+                <p class="empty-placeholder">Repositório remoto vazio ou não criado. Crie commits locais e faça <span class="cmd-highlight">git push</span>.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+    </main>
+  </div>
+
+  <!-- Sound effect utilities (optional or audio synthetic simulation) -->
+  <audio id="audio-click" src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==A"></audio>
+
+  <!-- Lucide icons auto-render init and app launcher -->
+  <script src="app.js"></script>
+</body>
+</html>

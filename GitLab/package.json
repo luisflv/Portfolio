@@ -1,0 +1,12 @@
+{
+  "name": "git-github-lab",
+  "version": "1.0.0",
+  "description": "Laboratório interativo de fundamentos de Git e GitHub",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server -p 8080"
+  },
+  "dependencies": {
+    "http-server": "^14.1.1"
+  }
+}
