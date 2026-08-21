@@ -3,191 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Professor - Luís Varela </title>
-    <meta name="description" content="Portfólio de Luís Varela, profissional de TI.">
-    <!-- Google Fonts: Inter -->
+    <title>Luís Varela - Professor e Profissional de TI</title>
+    <meta name="description" content="Página pessoal e educacional de Luís Varela, professor e profissional de TI.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Boxicons -->
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Header Navigation -->
-    <header class="header">
-        <a href="#inicio" class="logo">Luís <span>Varela</span></a>
-        <div class="bx bx-menu" id="menu-icon"></div>
-        <nav class="navbar">
-            <a href="#inicio" class="active">Início</a>
-            <a href="#sobre">Sobre</a>
-            <a href="#skills">Skills</a>
-            <a href="#projetos">Projetos</a>
-            <a href="SqlLab/index.html" class="sql-lab-nav">SQL Lab</a>
-            <a href="csharp-exception-quiz/index.html" class="csharp-quiz-nav">Quiz C#</a>
-            <a href="#contato">Contato</a>
-        </nav>
+    <header class="site-header">
+        <div class="header-container">
+            <a class="brand" href="#inicio" aria-label="Ir para o início">Prof. Luís Varela</a>
+
+            <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="site-navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav class="site-nav" id="site-navigation" aria-label="Navegação principal">
+                <a href="#inicio" class="active">Início</a>
+                <a href="#sobre">Sobre</a>
+                <a href="#sqllab">SqlLab</a>
+                <a href="#quizcsharp">QuizC#</a>
+            </nav>
+        </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero" id="inicio">
-        <div class="hero-content">
-            <h3>Olá, eu sou</h3>
-            <h1 class="gradient-text">Luís Varela</h1>
-            <h2>Profissional de TI</h2>
-            <p>“Transformando ideias em soluções digitais modernas, eficientes e escaláveis.”</p>
-            <div class="btn-group">
-                <a href="#projetos" class="btn btn-primary">Ver Projetos</a>
-                <a href="#contato" class="btn btn-secondary">Contato</a>
-            </div>
-            <div class="social-hero">
-                <a href="#"><i class="bx bxl-github"></i></a>
-                <a href="#"><i class="bx bxl-linkedin"></i></a>
-            </div>
-        </div>
-        <div class="hero-img">
-            <div class="img-wrapper">
-                <img src="assets/profile.png" alt="Foto Profissional">
-            </div>
-        </div>
-    </section>
+    <main>
+        <section class="section courses-section" id="inicio" aria-labelledby="cursos-title">
+            <div class="container">
+                <h2 id="cursos-title">Disciplinas</h2>
 
-    <!-- Sobre Mim -->
-    <section class="sobre" id="sobre">
-        <div class="section-title">
-            <h2>Sobre <span>Mim</span></h2>
-        </div>
-        <div class="sobre-content">
-            <div class="sobre-text">
-                <h3>Profissional de TI</h3>
-                <p>Sou professor e profissional de tecnologia da informação. Formado na área de Sistemas de Informação com especializações.</p>
-                
-                <div class="sobre-stats">
-                    <div class="stat-box">
-                        <i class="bx bx-code-alt"></i>
-                        <span>Sistemas Web</span>
-                    </div>
-                    <div class="stat-box">
-                        <i class="bx bx-server"></i>
-                        <span>APIs & Banco de Dados</span>
-                    </div>
-                    <div class="stat-box">
-                        <i class="bx bx-rocket"></i>
-                        <span>Performance</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+                <div class="cards-grid">
+                    <article class="tool-card">
+                        <h3>Computação em nuvem</h3>
+                        <p>
+                            Conteúdos introdutórios sobre serviços em nuvem, modelos de implantação, escalabilidade e boas práticas para soluções modernas.
+                        </p>
+                        <a class="primary-button" href="https://drive.google.com/drive/folders/1BSTO9nfPR08oPlTAfkRMtcvoXVtswtEZ?usp=sharing" target="_blank" rel="noopener noreferrer">Acessar material</a>
+                    </article>
 
-    <!-- Skills -->
-    <section class="skills" id="skills">
-        <div class="section-title">
-            <h2>Minhas <span>Skills</span></h2>
-        </div>
-        <div class="skills-grid">
-            <div class="skill-card"><i class="bx bxl-html5"></i><span>HTML5</span></div>
-            <div class="skill-card"><i class="bx bxl-css3"></i><span>CSS3</span></div>
-            <div class="skill-card"><i class="bx bxl-javascript"></i><span>JavaScript</span></div>
-            <div class="skill-card"><i class="bx bxl-php"></i><span>PHP</span></div>
-            <div class="skill-card"><i class="bx bx-data"></i><span>MySQL</span></div>
-            <div class="skill-card"><i class="bx bxl-nodejs"></i><span>Node.js</span></div>
-            <div class="skill-card"><i class="bx bxl-react"></i><span>React</span></div>
-            <div class="skill-card"><i class="bx bxl-git"></i><span>Git</span></div>
-            <div class="skill-card"><i class="bx bxl-github"></i><span>GitHub</span></div>
-            <div class="skill-card"><i class="bx bx-code-block"></i><span>C#</span></div>
-            <div class="skill-card"><i class="bx bx-window-alt"></i><span>.NET</span></div>
-            <div class="skill-card"><i class="bx bxl-python"></i><span>Python</span></div>
-        </div>
-    </section>
+                    <article class="tool-card">
+                        <h3>Introdução à Banco de Dados</h3>
+                        <p>
+                            Fundamentos de bancos de dados relacionais, modelagem, tabelas, chaves e primeiros passos para organizar informações com clareza.
+                        </p>
+                        <a class="primary-button" href="https://drive.google.com/drive/folders/1hiX6lpwEDJ6xhJHQimo5ZqM-wFdWheHi?usp=sharing">Acessar material</a>
+                    </article>
+                </div>
+            </div>
+        </section>
 
-    <!-- Projetos -->
-    <section class="projetos" id="projetos">
-        <div class="section-title">
-            <h2>Projetos em <span>Destaque</span></h2>
-        </div>
-        <div class="projetos-grid">
-            <!-- Projeto 1 -->
-            <div class="projeto-card">
-                <div class="projeto-img">
-                    <img src="assets/project1.png" alt="Sistema Web de Cadastro">
-                </div>
-                <div class="projeto-info">
-                    <h3>Sistema Web de Cadastro</h3>
-                    <p>CRUD completo com sistema de login, autenticação e gerenciamento de banco de dados integrado.</p>
-                    <a href="#" class="btn btn-outline">Ver Projeto <i class="bx bx-link-external"></i></a>
-                </div>
-            </div>
-            <!-- Projeto 2 -->
-            <div class="projeto-card">
-                <div class="projeto-img">
-                    <img src="assets/project2.png" alt="Dashboard Administrativo">
-                </div>
-                <div class="projeto-info">
-                    <h3>Dashboard Administrativo</h3>
-                    <p>Painel administrativo moderno com visualização de dados complexos através de gráficos e relatórios dinâmicos.</p>
-                    <a href="#" class="btn btn-outline">Ver Projeto <i class="bx bx-link-external"></i></a>
-                </div>
-            </div>
-            <!-- Projeto 3 -->
-            <div class="projeto-card">
-                <div class="projeto-img">
-                    <img src="assets/project3.png" alt="Portfólio Responsivo">
-                </div>
-                <div class="projeto-info">
-                    <h3>Portfólio Responsivo</h3>
-                    <p>Site profissional, moderno e otimizado para alta performance com foco em conversão e usabilidade.</p>
-                    <a href="#" class="btn btn-outline">Ver Projeto <i class="bx bx-link-external"></i></a>
-                </div>
-            </div>
-            <!-- Projeto 4: Quiz de Tratamento de Exceções em C# -->
-            <div class="projeto-card">
-                <div class="projeto-img flex-center-img">
-                    <div class="quiz-project-placeholder">
-                        <i class="bx bx-code-block" style="font-size: 3.5rem; color: #a78bfa;"></i>
-                        <span style="font-weight: 800; font-size: 1.1rem; color: #fff; margin-top: 10px; letter-spacing: 0.5px;">C# Quiz: Exceções</span>
-                    </div>
-                </div>
-                <div class="projeto-info">
-                    <h3>Quiz: Exceções em C#</h3>
-                    <p>Avaliação teórica interativa sobre blocos try-catch-finally com emissão de microcertificado e compartilhamento social.</p>
-                    <a href="csharp-exception-quiz/index.html" class="btn btn-outline">Testar Conhecimentos <i class="bx bx-link-external"></i></a>
-                </div>
-            </div>
-        </div>
-    </section>
+        <section class="section tools-section" aria-labelledby="ferramentas-title">
+            <div class="container">
+                <h2 id="ferramentas-title">Ferramentas</h2>
 
-    <!-- Contato -->
-    <section class="contato" id="contato">
-        <div class="section-title">
-            <h2>Vamos <span>Conversar?</span></h2>
-        </div>
-        <div class="contato-container">
-            <div class="contato-info">
-                <h3>Entre em contato</h3>
-                <p>Estou sempre aberto a discutir novos projetos, ideias criativas ou oportunidades para transformar a sua visão em realidade.</p>
-                <div class="contact-links">
-                    <a href="#"><i class="bx bxl-github"></i> GitHub</a>
-                    <a href="#"><i class="bx bxl-linkedin-square"></i> LinkedIn</a>
-                    <a href="mailto:contato@email.com"><i class="bx bx-envelope"></i> Email</a>
-                    <a href="#"><i class="bx bxl-whatsapp"></i> WhatsApp</a>
+                <div class="cards-grid">
+                    <article class="tool-card" id="sqllab">
+                        <h3>SqlLab</h3>
+                        <p>
+                            Laboratório de SQL para praticar consultas, explorar comandos e fortalecer o raciocínio sobre dados em um ambiente didático.
+                        </p>
+                        <a class="primary-button" href="SqlLab/index.html">Acessar SqlLab</a>
+                    </article>
+
+                    <article class="tool-card" id="quizcsharp">
+                        <h3>QuizC#</h3>
+                        <p>
+                            Avaliação interativa de C# sobre tratamento de exceções, com questões objetivas para revisar conceitos de try, catch e finally.
+                        </p>
+                        <a class="primary-button" href="csharp-exception-quiz/index.html">Acessar QuizC#</a>
+                    </article>
                 </div>
             </div>
-            <form action="" class="contato-form">
-                <div class="input-box">
-                    <input type="text" placeholder="Seu Nome" required>
-                    <input type="email" placeholder="Seu Email" required>
-                </div>
-                <textarea name="" id="message" cols="30" rows="10" placeholder="Sua Mensagem" required></textarea>
-                <button type="submit" class="btn btn-primary">Enviar Mensagem</button>
-            </form>
-        </div>
-    </section>
+        </section>
+    </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <p>&copy; 2026 Luís Varela - Todos os direitos reservados.</p>
+    <footer class="site-footer">
+        <p><a class="footer-egg" href="#pong-game" aria-label="Abrir jogo Pong">&copy; 2026 Luís Varela</a>.</p>
     </footer>
+
+    <div class="about-game" id="about-game" aria-hidden="true">
+        <div class="game-stage" role="dialog" aria-modal="true" aria-labelledby="about-game-title">
+            <button class="game-close" type="button" aria-label="Fechar animação">x</button>
+            <div class="retro-hills" aria-hidden="true">
+                <span></span>
+                <span></span>
+            </div>
+            <div class="pixel-sky" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="retro-blocks" aria-hidden="true">
+                <span>?</span>
+                <span></span>
+                <span>?</span>
+            </div>
+            <div class="retro-pipe" aria-hidden="true"></div>
+            <div class="game-character" aria-hidden="true">
+                <span class="game-head"></span>
+                <span class="game-body"></span>
+                <span class="game-feet"></span>
+            </div>
+            <p class="game-badge">LEVEL UP!</p>
+            <h2 id="about-game-title">Luís Varela - Professor de Tecnolia da Informação</h2>
+            <div class="game-ground" aria-hidden="true"></div>
+        </div>
+    </div>
+
+    <div class="pong-modal" id="pong-game" aria-hidden="true">
+        <div class="pong-panel" role="dialog" aria-modal="true" aria-labelledby="pong-title">
+            <button class="pong-close" type="button" aria-label="Fechar jogo">x</button>
+            <div class="pong-topbar">
+                <h2 id="pong-title">Pong secreto</h2>
+                <span class="pong-score" id="pong-score">0 : 0</span>
+            </div>
+            <canvas id="pong-canvas" width="560" height="320" aria-label="Jogo Pong"></canvas>
+            <p class="pong-help">Use W/S, setas, mouse ou toque para mover a raquete.</p>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>

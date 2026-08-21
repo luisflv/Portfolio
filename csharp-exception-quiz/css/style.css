@@ -1,36 +1,36 @@
-/* Design System: Tema Claro Inspirado no SQLLab */
+/* Design System: Tema Escuro Padronizado com SQLLab */
 :root {
-    --bg-app: #f8fafc;
-    --bg-card: rgba(255, 255, 255, 0.85);
-    --bg-card-hover: rgba(255, 255, 255, 0.98);
-    --border-color: rgba(15, 23, 42, 0.08);
-    --border-color-active: rgba(139, 92, 246, 0.45);
+    --bg-app: #090d16;
+    --bg-card: rgba(17, 24, 39, 0.75);
+    --bg-card-hover: rgba(31, 41, 55, 0.85);
+    --border-color: rgba(255, 255, 255, 0.08);
+    --border-color-active: rgba(139, 92, 246, 0.5);
     
-    --primary: #7c3aed; /* Violeta */
-    --primary-hover: #6d28d9;
-    --secondary: #0891b2; /* Ciano */
-    --secondary-hover: #0369a1;
-    --accent: #db2777; /* Rosa */
+    --primary: #8b5cf6;
+    --primary-hover: #7c3aed;
+    --secondary: #06b6d4;
+    --secondary-hover: #0891b2;
+    --accent: #d946ef;
     
-    --text-main: #0f172a; /* Slate 900 */
-    --text-muted: #64748b; /* Slate 500 */
-    --text-light: #94a3b8; /* Slate 400 */
+    --text-main: #f3f4f6;
+    --text-muted: #9ca3af;
+    --text-light: #6b7280;
     
-    --success: #059669; /* Esmeralda */
-    --success-bg: rgba(5, 150, 105, 0.06);
-    --error: #dc2626; /* Vermelho */
-    --error-bg: rgba(220, 38, 38, 0.06);
+    --success: #10b981;
+    --success-bg: rgba(16, 185, 129, 0.15);
+    --error: #ef4444;
+    --error-bg: rgba(239, 68, 68, 0.15);
     
     --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     --font-mono: 'Fira Code', Consolas, Monaco, monospace;
     
     --radius-sm: 8px;
     --radius-md: 12px;
-    --radius-lg: 20px;
+    --radius-lg: 18px;
     
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.08);
-    --glow: 0 0 20px rgba(139, 92, 246, 0.12);
+    --shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
+    --glow: 0 0 20px rgba(139, 92, 246, 0.15);
 }
 
 /* Reset Geral */
@@ -43,8 +43,8 @@
 body {
     background-color: var(--bg-app);
     background-image: 
-        radial-gradient(at 10% 20%, rgba(139, 92, 246, 0.06) 0px, transparent 50%),
-        radial-gradient(at 90% 80%, rgba(6, 182, 212, 0.06) 0px, transparent 50%);
+        radial-gradient(at 10% 20%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
+        radial-gradient(at 90% 80%, rgba(6, 182, 212, 0.15) 0px, transparent 50%);
     background-attachment: fixed;
     color: var(--text-main);
     font-family: var(--font-sans);
@@ -61,10 +61,10 @@ body {
     height: 8px;
 }
 ::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.03);
+    background: rgba(0, 0, 0, 0.2);
 }
 ::-webkit-scrollbar-thumb {
-    background: rgba(15, 23, 42, 0.1);
+    background: rgba(255, 255, 255, 0.1);
     border-radius: var(--radius-sm);
 }
 ::-webkit-scrollbar-thumb:hover {
@@ -118,16 +118,16 @@ body {
 }
 
 .back-link:hover {
-    color: var(--primary);
-    background: rgba(139, 92, 246, 0.05);
-    border-color: var(--border-color-active);
+    color: var(--text-main);
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
 .logo h1 {
     font-size: 1.4rem;
     font-weight: 800;
     letter-spacing: -0.5px;
-    background: linear-gradient(135deg, var(--text-main) 30%, var(--text-muted) 100%);
+    background: linear-gradient(135deg, #fff 30%, var(--text-muted) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     display: flex;
@@ -260,7 +260,7 @@ body {
 }
 
 .info-item {
-    background: rgba(15, 23, 42, 0.02);
+    background: rgba(255, 255, 255, 0.02);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-sm);
     padding: 16px;
@@ -273,7 +273,7 @@ body {
 }
 
 .info-item:hover {
-    background: rgba(15, 23, 42, 0.04);
+    background: rgba(255, 255, 255, 0.05);
     transform: translateY(-2px);
 }
 
@@ -295,7 +295,7 @@ body {
 }
 
 .instruction-box {
-    background: rgba(8, 145, 178, 0.04);
+    background: rgba(6, 182, 212, 0.08);
     border-left: 4px solid var(--secondary);
     border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
     padding: 18px;
@@ -368,7 +368,8 @@ body {
     font-size: 0.95rem;
     outline: none;
     transition: var(--transition);
-    background: white;
+    background: rgba(0, 0, 0, 0.22);
+    color: var(--text-main);
 }
 
 .input-group input:focus {
@@ -416,14 +417,14 @@ body {
 }
 
 .btn-secondary {
-    background: white;
+    background: rgba(255, 255, 255, 0.05);
     color: var(--text-main);
     border: 1px solid var(--border-color);
 }
 
 .btn-secondary:hover {
-    background: rgba(15, 23, 42, 0.03);
-    border-color: rgba(15, 23, 42, 0.15);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
 .btn-tertiary {
@@ -442,8 +443,8 @@ body {
 }
 
 .btn:disabled, .btn-primary:disabled {
-    background: #e2e8f0;
-    color: #94a3b8;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-light);
     cursor: not-allowed;
     box-shadow: none;
     transform: none;
@@ -562,7 +563,7 @@ body {
     flex-direction: column;
     gap: 16px;
     overflow-y: auto;
-    background: rgba(15, 23, 42, 0.01);
+    background: rgba(0, 0, 0, 0.08);
 }
 
 .quiz-alternatives-section h3 {
@@ -585,7 +586,7 @@ body {
     padding: 14px 18px;
     border-radius: var(--radius-sm);
     border: 1.5px solid var(--border-color);
-    background: white;
+    background: rgba(255, 255, 255, 0.03);
     cursor: pointer;
     transition: var(--transition);
     gap: 14px;
@@ -594,9 +595,9 @@ body {
 
 .alternative-option:hover {
     border-color: var(--border-color-active);
-    background: rgba(139, 92, 246, 0.02);
+    background: rgba(139, 92, 246, 0.08);
     transform: translateY(-1px);
-    box-shadow: 0 4px 10px rgba(139, 92, 246, 0.03);
+    box-shadow: var(--glow);
 }
 
 .alternative-letter {
@@ -604,7 +605,7 @@ body {
     height: 28px;
     border-radius: 50%;
     border: 1.5px solid var(--border-color);
-    background: rgba(15, 23, 42, 0.02);
+    background: rgba(255, 255, 255, 0.04);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -657,7 +658,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: white;
+    background: rgba(0, 0, 0, 0.18);
 }
 
 /* TELA DE RESULTADOS */
@@ -724,7 +725,7 @@ body {
 }
 
 .metric-card {
-    background: white;
+    background: rgba(255, 255, 255, 0.03);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-sm);
     padding: 16px;
@@ -837,7 +838,7 @@ body {
 }
 
 .review-item {
-    background: white;
+    background: rgba(255, 255, 255, 0.03);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-sm);
     padding: 18px;
@@ -891,7 +892,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 6px;
-    background: rgba(15, 23, 42, 0.01);
+    background: rgba(0, 0, 0, 0.16);
     padding: 12px;
     border-radius: var(--radius-sm);
     margin-bottom: 12px;
@@ -915,7 +916,7 @@ body {
 }
 
 .review-explanation {
-    background: rgba(15, 23, 42, 0.02);
+    background: rgba(0, 0, 0, 0.16);
     border-radius: var(--radius-sm);
     padding: 12px;
     font-size: 0.82rem;
@@ -939,7 +940,7 @@ body {
 .cert-tip {
     font-size: 0.85rem;
     color: var(--text-muted);
-    background: rgba(15, 23, 42, 0.02);
+    background: rgba(255, 255, 255, 0.03);
     padding: 10px 14px;
     border-radius: var(--radius-sm);
     display: flex;
@@ -964,7 +965,7 @@ body {
     justify-content: center;
     padding: 15px 0;
     border-radius: var(--radius-md);
-    background: rgba(15, 23, 42, 0.03);
+    background: rgba(0, 0, 0, 0.18);
     border: 1px solid var(--border-color);
 }
 
