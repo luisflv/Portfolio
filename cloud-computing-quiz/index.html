@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudLab | Quiz: Computação em Nuvem</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome para ícones premium -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS Estilos -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- CDNs para Geração de Certificados e QR Code -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Top Navigation (SQLLab Style) -->
+        <header class="app-header">
+            <div class="logo">
+                <a href="../index.html" class="back-link">
+                    <i class="fa-solid fa-arrow-left"></i> Voltar
+                </a>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 4.02 2 6.5V17.5C2 19.98 6.48 22 12 22C17.52 22 22 19.98 22 17.5V6.5C22 4.02 17.52 2 12 2Z" stroke="url(#logo-grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 12C2 13.5 6 15 12 15C18 15 22 13.5 22 12" stroke="url(#logo-grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 7C2 8.5 6 10 12 10C18 10 22 8.5 22 7" stroke="url(#logo-grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <defs>
+                        <linearGradient id="logo-grad" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#8b5cf6"/>
+                            <stop offset="1" stop-color="#06b6d4"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <h1>CloudLab <span class="badge">Quiz Nuvem</span></h1>
+            </div>
+            
+            <div class="header-actions" id="header-progress-container" style="display: none;">
+                <div class="progress-tracker">
+                    <span id="progress-text">Questão 1 de 20</span>
+                    <div class="progress-bar-container">
+                        <div id="progress-bar" class="progress-bar" style="width: 0%;"></div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="app-main">
+            <!-- TELA INICIAL: Cadastro do Aluno -->
+            <section id="screen-start" class="card main-card active-screen">
+                <div class="card-header start-header">
+                    <div class="icon-wrap">
+                        <i class="fa-solid fa-graduation-cap header-icon"></i>
+                    </div>
+                    <h2>Computação em Nuvem</h2>
+                    <p class="subtitle">Avaliação de conhecimentos sobre infraestrutura, nuvem e modelos de serviço</p>
+                </div>
+                <div class="card-body">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <i class="fa-regular fa-circle-question"></i>
+                            <div class="info-text">
+                                <strong>20 Questões</strong>
+                                <span>Múltipla escolha</span>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fa-regular fa-clock"></i>
+                            <div class="info-text">
+                                <strong>1 Hora</strong>
+                                <span>Carga horária certificada</span>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fa-solid fa-award"></i>
+                            <div class="info-text">
+                                <strong>Certificado</strong>
+                                <span>Disponível ao concluir</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="instruction-box">
+                        <h3><i class="fa-solid fa-circle-info"></i> Instruções:</h3>
+                        <ul>
+                            <li>Leia atentamente cada enunciado antes de responder.</li>
+                            <li>Você pode navegar livremente entre as questões usando "Anterior" e "Próxima".</li>
+                            <li>É necessário responder a todas as questões para finalizar o questionário.</li>
+                            <li>Ao final, um microcertificado profissional será emitido gratuitamente caso você conclua.</li>
+                        </ul>
+                    </div>
+
+                    <form id="start-form" class="form-container">
+                        <div class="input-group">
+                            <label for="student-name"><i class="fa-regular fa-user"></i> Nome Completo do Aluno</label>
+                            <input type="text" id="student-name" autocomplete="name" required placeholder="Digite seu nome completo para emissão do certificado">
+                            <span class="error-msg" id="name-error">O nome completo é obrigatório.</span>
+                        </div>
+                        <button type="submit" id="btn-start" class="btn btn-primary btn-block">
+                            Iniciar Avaliação <i class="fa-solid fa-play"></i>
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- TELA DE QUESTÕES -->
+            <section id="screen-quiz" class="card quiz-card" style="display: none;">
+                <div class="quiz-layout">
+                    <!-- Esquerda: Enunciado -->
+                    <div class="quiz-statement-section">
+                        <div class="question-header">
+                            <span class="question-number" id="question-badge">Questão 1</span>
+                        </div>
+                        <div class="question-body">
+                            <p class="question-text" id="question-text">Carregando pergunta...</p>
+                            
+                            <!-- Container para código (se a questão possuir) -->
+                            <div class="code-container" id="question-code-block" style="display: none;">
+                                <div class="code-header">
+                                    <span>Material de apoio</span>
+                                    <button class="copy-code-btn" onclick="navigator.clipboard.writeText(document.getElementById('code-snippet').innerText);"><i class="fa-regular fa-copy"></i> Copiar</button>
+                                </div>
+                                <pre><code id="code-snippet"></code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Direita: Alternativas -->
+                    <div class="quiz-alternatives-section">
+                        <h3>Selecione uma alternativa:</h3>
+                        <div class="alternatives-list" id="alternatives-container">
+                            <!-- Injetado pelo JS -->
+                        </div>
+                        <span class="validation-warning" id="quiz-warning">
+                            <i class="fa-solid fa-triangle-exclamation"></i> Por favor, selecione uma alternativa antes de prosseguir.
+                        </span>
+                    </div>
+                </div>
+                
+                <!-- Footer da Questão: Botões de Navegação -->
+                <div class="card-footer quiz-footer">
+                    <button id="btn-prev" class="btn btn-secondary">
+                        <i class="fa-solid fa-chevron-left"></i> Anterior
+                    </button>
+                    <button id="btn-next" class="btn btn-primary">
+                        Próxima <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- TELA DE RESULTADOS -->
+            <section id="screen-results" class="card results-card" style="display: none;">
+                <div class="results-header">
+                    <div id="results-icon-container"></div>
+                    <h2 id="results-title">Carregando Resultados...</h2>
+                    <p class="results-subtitle" id="results-subtitle">Confira seu desempenho na avaliação</p>
+                </div>
+                
+                <div class="results-body">
+                    <!-- Painel de Métricas -->
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <span class="metric-label">Acertos</span>
+                            <span class="metric-value" id="metric-hits">0/20</span>
+                        </div>
+                        <div class="metric-card">
+                            <span class="metric-label">Aproveitamento</span>
+                            <span class="metric-value" id="metric-percent">0%</span>
+                        </div>
+                        <div class="metric-card">
+                            <span class="metric-label">Nota Final</span>
+                            <span class="metric-value" id="metric-grade">0.0</span>
+                        </div>
+                    </div>
+
+                    <!-- Feedback de Texto -->
+                    <div class="feedback-container" id="performance-feedback">
+                        <!-- Injetado pelo JS -->
+                    </div>
+
+                    <!-- Abas de Conteúdo Pós-Quiz -->
+                    <div class="results-tabs">
+                        <button class="tab-btn active" data-target="tab-certificate">Seu Certificado</button>
+                        <button class="tab-btn" data-target="tab-review">Revisão de Respostas</button>
+                    </div>
+
+                    <div class="tabs-content">
+                        <!-- Aba 1: Certificado -->
+                        <div class="tab-pane active" id="tab-certificate">
+                            <div class="certificate-section-wrapper">
+                                <p class="cert-tip"><i class="fa-solid fa-circle-info"></i> Abaixo está a pré-visualização em tempo real do seu certificado. Você pode baixá-lo em alta qualidade clicando no botão abaixo.</p>
+                                
+                                <!-- Controles do Certificado -->
+                                <div class="cert-actions">
+                                    <button id="btn-download-pdf" class="btn btn-primary">
+                                        <i class="fa-solid fa-file-pdf"></i> Baixar Certificado em PDF
+                                    </button>
+                                    <button id="btn-share-linkedin" class="btn btn-secondary">
+                                        <i class="fa-brands fa-linkedin"></i> Compartilhar no LinkedIn
+                                    </button>
+                                </div>
+                                
+                                <!-- Certificado Real que será impresso (Layout A4 Paisagem fixo: 1000 x 707 px) -->
+                                <div class="certificate-outer-container">
+                                    <div class="certificate-container" id="certificate-element">
+                                        <!-- Borda elegante dupla com gradiente -->
+                                        <div class="cert-border-inner">
+                                            <!-- Marca d'água de fundo -->
+                                            <div class="cert-watermark"></div>
+                                            
+                                            <!-- Cabeçalho do Certificado -->
+                                            <div class="cert-header">
+                                                <div class="cert-logo">
+                                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M12 2C6.48 2 2 4.02 2 6.5V17.5C2 19.98 6.48 22 12 22C17.52 22 22 19.98 22 17.5V6.5C22 4.02 17.52 2 12 2Z" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <path d="M2 12C2 13.5 6 15 12 15C18 15 22 13.5 22 12" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <path d="M2 7C2 8.5 6 10 12 10C18 10 22 8.5 22 7" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    </svg>
+                                                    <h2>Cloud<span>Lab</span></h2>
+                                                </div>
+                                                <div class="cert-title-badge">MICROCERTIFICADO</div>
+                                            </div>
+                                            
+                                            <!-- Corpo do Certificado -->
+                                            <div class="cert-body">
+                                                <h1>CERTIFICADO DE CONCLUSÃO</h1>
+                                                <p class="cert-declaration">Certificamos para os devidos fins que o(a) aluno(a)</p>
+                                                <h2 class="cert-student-name" id="cert-student-name">Nome do Aluno</h2>
+                                                <p class="cert-text">
+                                                    concluiu com êxito a avaliação teórica da trilha de aprendizado profissionalizante
+                                                </p>
+                                                <h3 class="cert-course-name">Fundamentos de Computação em Nuvem</h3>
+                                                <p class="cert-details">
+                                                    realizada em <strong id="cert-date">16/06/2026</strong>, com carga horária total de <strong>1 hora</strong>, obtendo aproveitamento de <strong id="cert-percent">100%</strong> (Nota <strong id="cert-grade">10.0</strong>).
+                                                </p>
+                                            </div>
+                                            
+                                            <!-- Rodapé do Certificado -->
+                                            <div class="cert-footer">
+                                                <!-- Assinaturas -->
+                                                <div class="cert-signature-block">
+                                                    <div class="cert-signature-line">
+                                                        <span class="signature-font">Luís Varela</span>
+                                                    </div>
+                                                    <span class="signer-title">Professor</span>
+                                                </div>
+                                                
+                                                <!-- Selo Central -->
+                                                <div class="cert-seal">
+                                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="url(#seal-grad)" stroke-width="1.5">
+                                                        <circle cx="12" cy="12" r="10"/>
+                                                        <path d="M12 8v8M9 11l3-3 3 3"/>
+                                                        <defs>
+                                                            <linearGradient id="seal-grad" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+                                                                <stop stop-color="#8b5cf6"/>
+                                                                <stop offset="1" stop-color="#06b6d4"/>
+                                                            </linearGradient>
+                                                        </defs>
+                                                    </svg>
+                                                    <span>CLOUDLAB VALIDADO</span>
+                                                </div>
+
+                                                <!-- QR Code e Metadados -->
+                                                <div class="cert-meta-block">
+                                                    <div class="qr-code-wrapper">
+                                                        <div id="cert-qrcode"></div>
+                                                    </div>
+                                                    <div class="cert-verification-data">
+                                                        <span>Código de Autenticidade (UUID):</span>
+                                                        <strong id="cert-uuid">00000000-0000-0000-0000-000000000000</strong>
+                                                        <span class="verify-hint">Valide apontando a câmera para o QR Code</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Aba 2: Revisão de Questões -->
+                        <div class="tab-pane" id="tab-review">
+                            <div class="review-list" id="review-container">
+                                <!-- Injetado pelo JS -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="results-footer">
+                        <button id="btn-restart" class="btn btn-secondary">
+                            <i class="fa-solid fa-rotate-right"></i> Refazer Avaliação
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <!-- Rodapé da Aplicação -->
+        <footer class="app-footer">
+            <p>&copy; 2026 CloudLab. Todos os direitos reservados. Quiz desenvolvido por Luís Varela.</p>
+        </footer>
+    </div>
+    
+    <!-- Script Principal -->
+    <script src="js/app.js"></script>
+</body>
+</html>
